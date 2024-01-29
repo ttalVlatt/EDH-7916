@@ -96,6 +96,8 @@ outcomes <- c("x1txmtscor", "x1ses")
 
 for(i in outcomes) {
   
+  print(i)
+  
   loop_form <- formula(paste0(i, "~ x1sex + x1poverty185 + x1paredu"))
   
   loop_lm <- lm(loop_form, data = df)
