@@ -12,7 +12,8 @@ _site_dev
 _download
 _student
 figures/repo-
-data/
+data/*
+# /* required to ignore all except some / ignores all 
 !/data/hsls-small.csv
 !/data/hsls-small.dta
 !/data/sch-test/
@@ -24,6 +25,7 @@ data/
 !/data/test-scores.RDS
 !/data/kmeans.RDS
 !/data/ipeds-finance
+!/data/ggplot2-challenge-data.csv
 /.quarto/
 _solutions/
 /.luarc.json
