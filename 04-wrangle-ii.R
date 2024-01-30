@@ -42,6 +42,16 @@ df <- bind_rows(df_1, df_2, df_3)
 ## show
 df
 
+
+df_split_left <- df[,1:2]
+df_split_right <- df[,3:5]
+
+print(df_split_left)
+print(df_split_right)
+
+## Append them back together side-by-side
+
+
 ## -----------------------------------------------------------------------------
 ## Join data
 ## -----------------------------------------------------------------------------

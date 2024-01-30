@@ -1,7 +1,9 @@
 # .gitignore
 
-site-attachments/btskinner-imgs/*
-_btskinner/*
+EDH-7916/
+
+site-attachments/btskinner-imgs/
+_btskinner/
 .DS_Store
 .Rhistory
 .sass-cache
@@ -9,12 +11,12 @@ _site
 _site_dev
 _download
 _student
-figures/repo-*
-data/*
+figures/repo-
+data/
 !/data/hsls-small.csv
 !/data/hsls-small.dta
-!/data/sch-test/*
-!/data/rcpp/*
+!/data/sch-test/
+!/data/rcpp/
 !/data/hd2007.csv
 !/data/ic2007mission.csv
 !/data/els-plans.dta
@@ -23,6 +25,6 @@ data/*
 !/data/kmeans.RDS
 !/data/ipeds-finance
 /.quarto/
-_solutions/*
+_solutions/
 /.luarc.json
 .Rproj.user
