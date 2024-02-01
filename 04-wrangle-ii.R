@@ -90,6 +90,33 @@ df_joined <- df |>
 ## show
 df_joined
 
+## We can be overly specific to make the point
+left_join(x = df,
+          y = df_sum,
+          by = "year")
+
+## Therefore 
+left_join(x = df,
+          y = df_sum,
+          by = "year")
+
+## Is exactly the same as
+df |>
+  left_join(x = _, ## If it helps to visualize, the _ is where the |> will go
+            y = df_sum,
+            by = "year")
+
+## Is exactly the same as
+df |>
+  left_join(df_sum,
+            by = "year")
+
+## Note: if we want to keep the joined data, we should assign it to df_join
+df_join <- df |>
+  left_join(df_sum,
+            by = "year")
+
+
 ## -----------------------------------------------------------------------------
 ## Reshape data
 ## -----------------------------------------------------------------------------
@@ -159,7 +186,7 @@ df_long
 df_long_fix <- df_long |>
     ## col: the column to split
     ## into: names of resulting splits
-    ## sep: the split point --> left to "test", right to "year"
+    ## sep: the split point left to "test", right to "year"
     separate(col = "test_year",
              into = c("test", "year"),
              sep = "_")

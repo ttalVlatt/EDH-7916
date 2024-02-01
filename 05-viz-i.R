@@ -19,8 +19,8 @@ library(haven)
 ## ---------------------------
 
 ## read_dta() ==> read in Stata (*.dta) files
-## read_csv() ==> read in comma separated value (*.csv) files
 df_hs <- read_dta(file.path("data", "hsls-small.dta"))
+## read_csv() ==> read in comma separated value (*.csv) files
 df_ts <- read_csv(file.path("data", "sch-test", "all-schools.csv"))
 
 ## -----------------------------------------------------------------------------
@@ -37,9 +37,6 @@ hist(df_hs$x1txmtscor)
 ## ---------------------------
 ## density
 ## ---------------------------
-
-## density plot of math scores with hist() function
-hist(df_hs$x1txmtscor, freq = FALSE)
 
 ## density plot of math scores
 ## read inside out: get density value, then plot values
@@ -68,40 +65,38 @@ plot(df_hs$x1ses, df_hs$x1txmtscor)
 ## ---------------------------
 
 ## init ggplot 
-p <- ggplot(data = df_hs, mapping = aes(x = x1txmtscor))
-p
+ggplot(data = df_hs)
 
 ## add histogram instruction (notice we can add pieces using +)
-p <- p + geom_histogram()
-p
-
-## create histogram using ggplot
-p <- ggplot(data = df_hs, mapping = aes(x = x1txmtscor)) +
-    geom_histogram()
-p
+ggplot(data = df_hs) +
+  geom_histogram(mapping = aes(x = x1txmtscor))
 
 ## ---------------------------
 ## density
 ## ---------------------------
 
 ## density
-p <- ggplot(data = df_hs, mapping = aes(x = x1txmtscor)) +
-    geom_density()
-p
+ggplot(data = df_hs) +
+  geom_density(mapping = aes(x = x1txmtscor))
+
+ggplot(data = df_hs) +
+  geom_histogram(mapping = aes(x = x1txmtscor)) +
+  geom_density(mapping = aes(x = x1txmtscor))
 
 ## histogram with density plot overlapping
-p <- ggplot(data = df_hs, mapping = aes(x = x1txmtscor)) +
-    geom_histogram(mapping = aes(y = ..density..)) +
-    geom_density()
-p
+ggplot(data = df_hs) +
+  geom_histogram(mapping = aes(x = x1txmtscor, y = after_stat(density))) +
+  geom_density(mapping = aes(x = x1txmtscor))
 
 ## histogram with density plot overlapping (add color to see better)
-p <- ggplot(data = df_hs, mapping = aes(x = x1txmtscor)) +
-    geom_histogram(mapping = aes(y = ..density..),
-                   color = "black",
-                   fill = "white") +
-    geom_density(fill = "red", alpha = 0.2)
-p
+ggplot(data = df_hs) +
+  geom_histogram(mapping = aes(x = x1txmtscor, y = after_stat(density)),
+                 color = "black",
+                 fill = "white") +
+  geom_density(mapping = aes(x = x1txmtscor),
+               fill = "red",
+               alpha = 0.2)
+
 
 ## ---------------------------
 ## two way plot
@@ -116,8 +111,9 @@ plot_df <- df_hs |>
     select(x1paredu, x1txmtscor) |>
     ## can't plot NA so will drop
     drop_na() |>
-    ## create new variable that == 1 if parents have any college
-    mutate(pared_coll = ifelse(x1paredu >= 3, 1, 0)) |>
+    ## create new variable that == 1 if parents have any college, then make it a factor
+    mutate(pared_coll = ifelse(x1paredu >= 3, 1, 0),
+           pared_coll = factor(pared_coll)) |>
     ## drop (using negative sign) the original variable we don't need now
     select(-x1paredu) 
 
@@ -125,22 +121,29 @@ plot_df <- df_hs |>
 head(plot_df)
 
 ## two way histogram
-p <- ggplot(data = plot_df,
-            aes(x = x1txmtscor, fill = factor(pared_coll))) +
-    geom_histogram(alpha = 0.5, stat = "density", position = "identity")
-p
+ggplot(plot_df) +
+  geom_histogram(aes(x = x1txmtscor,
+                     fill = pared_coll),
+                 alpha = 0.5,
+                 color = "black")
+
+## two way histogram
+ggplot(plot_df) +
+  geom_density(aes(x = x1txmtscor,
+                     fill = pared_coll),
+                 alpha = 0.5,
+                 color = "black")
 
 ## ---------------------------
 ## box plot
 ## ---------------------------
 
 ## box plot using both factor() and as_factor()
-p <- ggplot(data = df_hs,
-            mapping = aes(x = factor(x1paredu),
-                          y = x1txmtscor,
-                          fill = as_factor(x1paredu))) +
-    geom_boxplot()
-p
+ggplot(data = df_hs,
+       mapping = aes(x = factor(x1paredu),
+                     y = x1txmtscor,
+                     fill = factor(x1paredu))) +
+  geom_boxplot()
 
 ## ---------------------------
 ## scatter plot
@@ -154,10 +157,8 @@ df_hs_10 <- df_hs |>
     sample_frac(0.1)
 
 ## scatter
-p <- ggplot(data = df_hs_10, mapping = aes(x = x1ses, y = x1txmtscor)) +
-    geom_point()
-p
-
+ggplot(data = df_hs_10) +
+  geom_point(mapping = aes(x = x1ses, y = x1txmtscor))
 
 ## see student base year plans
 df_hs |>
@@ -167,35 +168,30 @@ df_hs |>
 df_hs_10 <- df_hs_10 |>
     mutate(plan_col_grad = ifelse(x1stuedexpct >= 6 & x1stuedexpct < 11,
                                   1,        # if T: 1
-                                  0))       # if F: 0
+                                  0),       # if F: 0
+           plan_col_grad = factor(plan_col_grad,
+                                  levels = c(0, 1),
+                                  labels = c("No", "Yes")))      
 
 ## scatter
-p <- ggplot(data = df_hs_10,
-            mapping = aes(x = x1ses, y = x1txmtscor)) +
-    geom_point(mapping = aes(color = factor(plan_col_grad)), alpha = 0.5)
-p
+ggplot(data = df_hs_10,
+       mapping = aes(x = x1ses, y = x1txmtscor)) +
+  geom_point(mapping = aes(color = plan_col_grad), alpha = 0.5)
+
 
 ## ---------------------------
 ## fitted lines
 ## ---------------------------
 
 ## add fitted line with linear fit
-p <- ggplot(data = df_hs_10, mapping = aes(x = x1ses, y = x1txmtscor)) +
+ggplot(data = df_hs_10, mapping = aes(x = x1ses, y = x1txmtscor)) +
     geom_point(mapping = aes(color = factor(plan_col_grad)), alpha = 0.5) +
-    geom_smooth(method = lm)
-p
-
-## add fitted line with polynomial linear fit
-p <- ggplot(data = df_hs_10, mapping = aes(x = x1ses, y = x1txmtscor)) +
-    geom_point(mapping = aes(color = factor(plan_col_grad)), alpha = 0.5) +
-    geom_smooth(method = lm, formula = y ~ poly(x,2))
-p
+    geom_smooth(method = lm, color = "black")
 
 ## add fitted line with loess
-p <- ggplot(data = df_hs_10, mapping = aes(x = x1ses, y = x1txmtscor)) +
+ggplot(data = df_hs_10, mapping = aes(x = x1ses, y = x1txmtscor)) +
     geom_point(mapping = aes(color = factor(plan_col_grad)), alpha = 0.5) +
-    geom_smooth(method = loess)
-p
+    geom_smooth(method = loess, color = "black")
 
 ## ---------------------------
 ## line graph
@@ -205,23 +201,20 @@ p
 df_ts
 
 ## line graph
-p <- ggplot(data = df_ts |> filter(school == "Spottsville"),
+ggplot(data = df_ts |> filter(school == "Spottsville"),
             mapping = aes(x = year, y = math)) +
     geom_line()
-p
 
 ## line graph for math scores at every school over time
-p <- ggplot(data = df_ts,
+ggplot(data = df_ts,
             mapping = aes(x = year, y = math, colour = school)) +
     geom_line()
-p
 
 ## facet line graph
-p <- ggplot(data = df_ts,
+ggplot(data = df_ts,
             mapping = aes(x = year, y = math)) +
     facet_wrap(~ school) +
     geom_line()
-p
 
 ## reshape data long
 df_ts_long <- df_ts |>
@@ -233,48 +226,11 @@ df_ts_long <- df_ts |>
 df_ts_long
 
 ## facet line graph, with colour = test and ~school
-p <- ggplot(data = df_ts_long,
-            mapping = aes(x = year, y = score, colour = test)) +
-    facet_wrap(~ school) +
-    geom_line()
-p
+ggplot(data = df_ts_long) +
+    geom_line(mapping = aes(x = year, y = score, colour = test)) +
+      facet_wrap(~ school)
 
-## facet line graph, now with colour = school and ~test
-p <- ggplot(data = df_ts_long,
-            mapping = aes(x = year, y = score, colour = school)) +
-    facet_wrap(~ test) +
-    geom_line()
-p
-
-## facet line graph, with one column so they stack
-p <- ggplot(data = df_ts_long,
-            mapping = aes(x = year, y = score, colour = school)) +
-    facet_wrap(~ test, ncol = 1, scales = "free_y") +
-    geom_line()
-p
-
-## rescale test scores
-df_ts_long <- df_ts_long |>
-    group_by(test) |>
-    mutate(score_std = (score - mean(score)) / sd(score)) |>
-    ungroup()
-
-## facet line graph with standardized test scores
-p <- ggplot(data = df_ts_long,
-            mapping = aes(x = year, y = score_std, colour = school)) +
-    facet_wrap(~ test, ncol = 1) +
-    geom_line()
-p
-
-## facet line graph
-p <- ggplot(data = df_ts_long,
-            mapping = aes(x = year, y = score_std, colour = test)) +
-    facet_wrap(~ school) +
-    geom_line()
-p
-
-## standardize test scores within school to first year
-df_ts_long <- df_ts_long |>
+df_ts_long_std <- df_ts_long |>
     group_by(test, school) |>
     arrange(year) |> 
     mutate(score_year_one = first(score),
@@ -282,12 +238,12 @@ df_ts_long <- df_ts_long |>
            score_std_sch = (score - score_year_one) / sd(score)) |>
     ungroup()
 
-## facet line graph
-p <- ggplot(data = df_ts_long,
-            mapping = aes(x = year, y = score_std_sch, colour = test)) +
-    facet_wrap(~ school) +
-    geom_line()
-p
+print(df_ts_long, n = 13)
+
+## facet line graph, with colour = test and ~school
+ggplot(data = df_ts_long_std) +
+    geom_line(mapping = aes(x = year, y = score_std_sch, colour = test)) +
+    facet_wrap(~ school)
 
 
 ## =============================================================================
