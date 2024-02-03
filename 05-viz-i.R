@@ -39,8 +39,8 @@ hist(df_hs$x1txmtscor)
 ## ---------------------------
 
 ## density plot of math scores
-## read inside out: get density value, then plot values
-plot(density(df_hs$x1txmtscor, na.rm = TRUE))
+density(df_hs$x1txmtscor, na.rm = TRUE) |>
+  plot()
 
 ## ---------------------------
 ## box plot

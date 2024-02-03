@@ -260,10 +260,16 @@ db |>
 ##' [Data Wrangling II in SQL]
 ## ---------------------------
 
+## ---------------------------
+##' [dbplyr SQL Setup]
+## ---------------------------
 
-df_2 <- read_csv(file.path("data", "sch-test", "all-schools.csv"))
 
-db_2 <- memdb_frame(df_2)
+df <- read_csv(file.path("data", "sch-test", "all-schools.csv"))
+
+microsoft_access <- simulate_access()
+
+db <- memdb_frame(df)
 
 
 ## ---------------------------
@@ -271,7 +277,7 @@ db_2 <- memdb_frame(df_2)
 ## ---------------------------
 
 
-df_sum <- db_2 |>
+df_sum <- db |>
     ## grouping by year so average within each year
     group_by(year) |>
     ## get mean(<score>) for each test
@@ -284,7 +290,7 @@ df_sum <- db_2 |>
 ##' [Left-Join]
 ## ---------------------------
 
-df_joined <- db_2 |>
+df_joined <- db |>
     ## pipe into left_join to join with df_sum using "year" as key
     left_join(df_sum, by = "year") |>
   show_query()
@@ -293,7 +299,7 @@ df_joined <- db_2 |>
 ##' [Pivot-Longer]
 ## ---------------------------
 
-df_long <- db_2 |>
+df_long <- db |>
     ## cols: current test columns
     ## names_to: where "math", "read", and "science" will go
     ## values_to: where the values in cols will go
