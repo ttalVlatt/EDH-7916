@@ -1,6 +1,7 @@
 # .gitignore
 
 EDH-7916/
+reproducible-report/
 
 site-attachments/btskinner-imgs/
 _btskinner/
