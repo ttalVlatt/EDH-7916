@@ -12,14 +12,13 @@
 ## ---------------------------
 
 library(tidyverse)
-library(haven)
 
 ## ---------------------------
 ## input data
 ## ---------------------------
 
 ## read_dta() ==> read in Stata (*.dta) files
-df_hs <- read_dta(file.path("data", "hsls-small.dta"))
+df_hs <- haven::read_dta(file.path("data", "hsls-small.dta"))
 ## read_csv() ==> read in comma separated value (*.csv) files
 df_ts <- read_csv(file.path("data", "sch-test", "all-schools.csv"))
 
@@ -238,7 +237,7 @@ df_ts_long_std <- df_ts_long |>
          score_std_sch = (score - score_year_one) / sd(score)) |>
   ungroup()
 
-print(df_ts_long, n = 13)
+print(df_ts_long_std, n = 13)
 
 ## facet line graph, with colour = test and ~school
 ggplot(data = df_ts_long_std) +
