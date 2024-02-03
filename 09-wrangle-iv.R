@@ -127,6 +127,69 @@ df_18_clean |>
   count(highest_cat)
 
 ## ---------------------------
+##' [Data Wrangling II in SQL]
+## ---------------------------
+
+## ---------------------------
+##' [dbplyr SQL Setup]
+## ---------------------------
+
+
+df <- read_csv(file.path("data", "sch-test", "all-schools.csv"))
+
+microsoft_access <- simulate_access()
+
+db <- memdb_frame(df)
+
+
+## ---------------------------
+##' [Create Summary Table]
+## ---------------------------
+
+# https://stackoverflow.com/questions/76724279/syntax-highlight-quarto-output
+df_sum <- db |>
+    ## grouping by year so average within each year
+    group_by(year) |>
+    ## get mean(<score>) for each test
+    summarize(math_m = mean(math),
+              read_m = mean(read),
+              science_m = mean(science)) |>
+  show_query()
+
+## ---------------------------
+##' [Left-Join]
+## ---------------------------
+
+df_joined <- db |>
+    ## pipe into left_join to join with df_sum using "year" as key
+    left_join(df_sum, by = "year") |>
+  show_query()
+
+## ---------------------------
+##' [Pivot-Longer]
+## ---------------------------
+
+df_long <- db |>
+    ## cols: current test columns
+    ## names_to: where "math", "read", and "science" will go
+    ## values_to: where the values in cols will go
+    pivot_longer(cols = c("math","read","science"),
+                 names_to = "test",
+                 values_to = "score") |>
+  show_query()
+
+## ---------------------------
+##' [Pivot-Wider]
+## ---------------------------
+
+df_wide <- df_long |>
+    ## names_from: values in this column will become new column names
+    ## values_from: values in this column will become values in new cols
+    pivot_wider(names_from = "test",
+                values_from = "score") |>
+  show_query()
+
+## ---------------------------
 ##' [Data Wrangling I in SQL]
 ## ---------------------------
 
@@ -257,69 +320,6 @@ db |>
   show_query()
 
 ## ---------------------------
-##' [Data Wrangling II in SQL]
-## ---------------------------
-
-## ---------------------------
-##' [dbplyr SQL Setup]
-## ---------------------------
-
-
-df <- read_csv(file.path("data", "sch-test", "all-schools.csv"))
-
-microsoft_access <- simulate_access()
-
-db <- memdb_frame(df)
-
-
-## ---------------------------
-##' [Create Summary Table]
-## ---------------------------
-
-
-df_sum <- db |>
-    ## grouping by year so average within each year
-    group_by(year) |>
-    ## get mean(<score>) for each test
-    summarize(math_m = mean(math),
-              read_m = mean(read),
-              science_m = mean(science)) |>
-  show_query()
-
-## ---------------------------
-##' [Left-Join]
-## ---------------------------
-
-df_joined <- db |>
-    ## pipe into left_join to join with df_sum using "year" as key
-    left_join(df_sum, by = "year") |>
-  show_query()
-
-## ---------------------------
-##' [Pivot-Longer]
-## ---------------------------
-
-df_long <- db |>
-    ## cols: current test columns
-    ## names_to: where "math", "read", and "science" will go
-    ## values_to: where the values in cols will go
-    pivot_longer(cols = c("math","read","science"),
-                 names_to = "test",
-                 values_to = "score") |>
-  show_query()
-
-## ---------------------------
-##' [Pivot-Wider]
-## ---------------------------
-
-df_wide <- df_long |>
-    ## names_from: values in this column will become new column names
-    ## values_from: values in this column will become values in new cols
-    pivot_wider(names_from = "test",
-                values_from = "score") |>
-  show_query()
-
-## ---------------------------
 ##' [Pivot-Longer with Compound Names]
 ## ---------------------------
 
@@ -331,8 +331,7 @@ db_3 <- memdb_frame(df_3)
 print(db_3)
 
 
-## Note: change from DWII,dbplyr can't translate separate, or any stringr commands, so we have to 
-## more sophisticated with our pivot_longer
+## Note: change from DWII,dbplyr can't translate separate, or any stringr commands, so we have to be more sophisticated with our pivot_longer
 df_long_fix <- db_3 |>
     ## NB: contains() looks for "19" in name: if there, it adds it to cols
     pivot_longer(cols = contains("19"),

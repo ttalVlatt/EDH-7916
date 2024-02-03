@@ -176,23 +176,12 @@ df
 df_long <- df |>
     ## NB: contains() looks for "19" in name: if there, it adds it to cols
     pivot_longer(cols = contains("19"),
-                 names_to = "test_year",
+                 names_to = c("test", "year"),
+                 names_sep = "_",
                  values_to = "score")
 
 ## show
 df_long
-
-## separate test_year into two columns, filling appropriately
-df_long_fix <- df_long |>
-    ## col: the column to split
-    ## into: names of resulting splits
-    ## sep: the split point left to "test", right to "year"
-    separate(col = "test_year",
-             into = c("test", "year"),
-             sep = "_")
-
-## show
-df_long_fix
 
 ## -----------------------------------------------------------------------------
 ## end script
