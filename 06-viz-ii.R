@@ -123,7 +123,7 @@ p2
 
 
 ## ---------------------------
-## legend labels: ver 3
+##' [Color Scales]
 ## ---------------------------
 
 ## create histogram using ggplot
@@ -218,7 +218,11 @@ p2 / p3 + guide_area() + plot_layout(design = "AAAAA
 
 
 
-
+p2 / p3 + guide_area() + plot_layout(design = "AAAAA
+                                               BBBCC",
+                                     guides= "collect") +
+  plot_annotation(title = "Math Test Scores Differences by Parental Education",
+                  caption = "Data: High School Longitudinal Study, 2009")
 
 
 ## -----------------------------------------------------------------------------

@@ -75,7 +75,8 @@ base_map <- ggplot() +
           color = "black",
           size = 0.1) +
   labs(fill = str_wrap("Percent Population with Bachelor's", 20)) +
-  scale_fill_gradient(low = "#a6b5c0", high = "#00254d")
+  scale_fill_gradient(low = "#a6b5c0", high = "#00254d") +
+  theme_minimal()
 
 ## call base map by itself
 base_map
