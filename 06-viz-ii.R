@@ -1,61 +1,48 @@
-################################################################################
+## -----------------------------------------------------------------------------
 ##
-## <PROJ> EDH7916: Data visualization with ggplot2 II
-## <FILE> plotting_ii.R 
-## <INIT> 5 April 2022
-## <AUTH> Benjamin Skinner (GitHub/Twitter: @btskinner)
+##' [PROJ: EDH7916: Data visualization with ggplot2]
+##' [FILE: 06-viz-ii.R]
+##' [INIT: 9 March 2020]
+##' [AUTH: Benjamin Skinner @btskinner]
+##' [EDIT: Matt Capaldi @ttalVlatt]
 ##
-################################################################################
-
+## -----------------------------------------------------------------------------
 
 ## ---------------------------
-## libraries
+##' [Libraries]
 ## ---------------------------
 
 library(tidyverse)
 library(patchwork)
 
 ## ---------------------------
-## functions
+##' [Input data]
 ## ---------------------------
 
-## utility function to convert values to NA
-fix_missing <- function(x, miss_val) {
-  x <- ifelse(x %in% miss_val, NA, x)
-  return(x)
-}
-
-## ---------------------------
-## input data
-## ---------------------------
-
-df <- read_csv(file.path("data", "hsls-small.csv"), show_col_types = FALSE)
+df <- read_csv(file.path("data", "hsls-small.csv"))
 
 ## -----------------------------------------------------------------------------
-## initial plain plot
+##' [Initial plain plot]
 ## -----------------------------------------------------------------------------
 
-## fix missing values for text score and then drop missing
+## Drop missing values for math test score
+## Note: they would be dropped by ggplot anyway, but this prevents that warning
 df <- df |>
-  mutate(math_test = fix_missing(x1txmtscor, -8)) |>
-  drop_na(math_test)
+  filter(x1txmtscor != -8)
 
 ## create histogram using ggplot
-p <- ggplot(data = df,
-            mapping = aes(x = math_test)) +
-  geom_histogram()
+p <- ggplot(data = df) +
+  geom_histogram(mapping = aes(x = x1txmtscor))
 
 ## show
 p
 
 ## -----------------------------------------------------------------------------
-## titles and captions
+##' [Titles and captions]
 ## -----------------------------------------------------------------------------
 
-## create histogram using ggplot, showing placeholder titles/labels/captions
-p <- ggplot(data = df,
-            mapping = aes(x = math_test)) +
-  geom_histogram(bins = 30) +
+## Add placeholder titles/labels/captions
+p <- p +
   labs(title = "Title",
        subtitle = "Subtitle",
        caption = "Caption",
@@ -70,9 +57,7 @@ p
 ## ---------------------------
 
 ## create histogram using ggplot
-p <- ggplot(data = df,
-            mapping = aes(x = math_test)) +
-  geom_histogram(bins = 30) +
+p <- p +
   labs(title = "Math test scores",
        caption = "Data: High School Longitudinal Study, 2009",
        x = "Math score",
@@ -81,22 +66,18 @@ p <- ggplot(data = df,
 ## show 
 p
 
+
+
 ## -----------------------------------------------------------------------------
-## axis formatting
+##' [Axis formatting]
 ## -----------------------------------------------------------------------------
 
 ## create histogram using ggplot
-p <- ggplot(data = df,
-            mapping = aes(x = math_test)) +
-  geom_histogram(bins = 30) +
-  scale_x_continuous(breaks = seq(from = 0, to = 100, by = 5),
+p <- p +
+    scale_x_continuous(breaks = seq(from = 0, to = 100, by = 5),
                      minor_breaks = seq(from = 0, to = 100, by = 1)) +
   scale_y_continuous(breaks = seq(from = 0, to = 2500, by = 100),
-                     minor_breaks = seq(from = 0, to = 2500, by = 50)) +
-  labs(title = "Math test scores",
-       caption = "Data: High School Longitudinal Study, 2009",
-       x = "Math score",
-       y = "Count")
+                     minor_breaks = seq(from = 0, to = 2500, by = 50))
 
 ## show 
 p
@@ -105,401 +86,141 @@ p
 ## axis formatting: ver 2
 ## ---------------------------
 
-## create histogram using ggplot
-p <- ggplot(data = df,
-            mapping = aes(x = math_test)) +
-  geom_histogram(bins = 30) +
-  scale_x_continuous(breaks = seq(from = 0, to = 100, by = 5),
-                     minor_breaks = seq(from = 0, to = 100, by = 1)) +
-  scale_y_continuous(breaks = seq(from = 0, to = 2500, by = 500),
-                     minor_breaks = seq(from = 0, to = 2500, by = 100)) +
-  labs(title = "Math test scores",
-       caption = "Data: High School Longitudinal Study, 2009",
-       x = "Math score",
-       y = "Count")
+p <- p +
+    scale_y_continuous(breaks = seq(from = 0, to = 2500, by = 500),
+                     minor_breaks = seq(from = 0, to = 2500, by = 100))
 
-## show 
-p
 
 ## -----------------------------------------------------------------------------
-## legend labels
+##' [Legend labels]
 ## -----------------------------------------------------------------------------
 
 ## add indicator that == 1 if either parent has any college
 df <- df |>
-  mutate(pared_coll = ifelse(x1paredu >= 3, 1, 0))
+  mutate(pared_coll = ifelse(x1paredu >= 3, 1, 0),
+         pared_coll = factor(pared_coll,
+                             levels = c(0,1),
+                             labels = c("No college", "College")))
 
-## create histogram using ggplot
-p <- ggplot(data = df,
-            mapping = aes(x = math_test, fill = as_factor(pared_coll))) +
-  geom_histogram(bins = 50, alpha = 0.5, position = "identity") +
-  scale_x_continuous(breaks = seq(from = 0, to = 100, by = 5),
-                     minor_breaks = seq(from = 0, to = 100, by = 1)) +
-  scale_y_continuous(breaks = seq(from = 0, to = 2500, by = 500),
-                     minor_breaks = seq(from = 0, to = 2500, by = 100)) +
-  labs(title = "Math test scores by parental education",
+
+p2 <- ggplot(data = df) +
+  geom_histogram(mapping = aes(x = x1txmtscor,
+                               fill = factor(pared_coll)),
+                 alpha = 0.66) +
+  ## Below here is just what we had added to p in previous steps
+  labs(title = "Math test scores",
        caption = "Data: High School Longitudinal Study, 2009",
        x = "Math score",
-       y = "Count")
-
-## show 
-p
-
-## ---------------------------
-## legend labels: ver 2
-## ---------------------------
-
-## create histogram using ggplot
-p <- ggplot(data = df,
-            mapping = aes(x = math_test,
-                          fill = factor(pared_coll,
-                                        levels = c(0,1),
-                                        labels = c("No college",
-                                                   "College")))) +
-  geom_histogram(bins = 50, alpha = 0.5, position = "identity") +
-  scale_x_continuous(breaks = seq(from = 0, to = 100, by = 5),
+       y = "Count") +
+      scale_x_continuous(breaks = seq(from = 0, to = 100, by = 5),
                      minor_breaks = seq(from = 0, to = 100, by = 1)) +
-  scale_y_continuous(breaks = seq(from = 0, to = 2500, by = 500),
-                     minor_breaks = seq(from = 0, to = 2500, by = 100)) +
-  labs(title = "Math test scores by parental education",
-       caption = "Data: High School Longitudinal Study, 2009",
-       x = "Math score",
-       y = "Count")
+    scale_y_continuous(breaks = seq(from = 0, to = 2500, by = 500),
+                     minor_breaks = seq(from = 0, to = 2500, by = 100))
 
 ## show 
-p
+p2
+
+
 
 ## ---------------------------
 ## legend labels: ver 3
 ## ---------------------------
 
 ## create histogram using ggplot
-p <- ggplot(data = df,
-            mapping = aes(x = math_test,
-                          fill = factor(pared_coll,
-                                        levels = c(0,1),
-                                        labels = c("No college",
-                                                   "College")))) +
-  geom_histogram(bins = 50, alpha = 0.5, position = "identity") +
-  scale_x_continuous(breaks = seq(from = 0, to = 100, by = 5),
-                     minor_breaks = seq(from = 0, to = 100, by = 1)) +
-  scale_y_continuous(breaks = seq(from = 0, to = 1500, by = 100),
-                     minor_breaks = seq(from = 0, to = 1500, by = 25)) +
-  scale_fill_discrete(name = "Parental education") +
-  labs(title = "Math test scores by parental education",
-       caption = "Data: High School Longitudinal Study, 2009",
-       x = "Math score",
-       y = "Count")
+p2 <- p2 +
+  scale_fill_manual(values = c("blue4", "orange2"))
 
 ## show 
-p
+p2
+
+## Add a facet wrap for region
+p2 <- p2 +
+  facet_wrap(~x1sex)
+
+## show 
+p2
+
+
+
+
 
 ## -----------------------------------------------------------------------------
-## facet labels
+##' [Preset themes]
 ## -----------------------------------------------------------------------------
 
 ## create histogram using ggplot
-p <- ggplot(data = df,
-            mapping = aes(x = math_test)) +
-  facet_wrap(~ factor(pared_coll,
-                      levels = c(0,1),
-                      labels = c("No college","College"))) + 
-  geom_histogram(bins = 50) +
-  scale_x_continuous(breaks = seq(from = 0, to = 100, by = 5),
-                     minor_breaks = seq(from = 0, to = 100, by = 1)) +
-  scale_y_continuous(breaks = seq(from = 0, to = 1500, by = 100),
-                     minor_breaks = seq(from = 0, to = 1500, by = 25)) +
-  labs(title = "Math test scores by parental education",
-       caption = "Data: High School Longitudinal Study, 2009",
-       x = "Math score",
-       y = "Count")
-
-## show 
-p
-
-## -----------------------------------------------------------------------------
-## themes
-## -----------------------------------------------------------------------------
-
-## create histogram using ggplot
-p <- ggplot(data = df,
-            mapping = aes(x = math_test)) +
-  facet_wrap(~ factor(pared_coll,
-                      levels = c(0,1),
-                      labels = c("No college","College"))) + 
-  geom_histogram(bins = 50) +
-  scale_x_continuous(breaks = seq(from = 0, to = 100, by = 5),
-                     minor_breaks = seq(from = 0, to = 100, by = 1)) +
-  scale_y_continuous(breaks = seq(from = 0, to = 1500, by = 100),
-                     minor_breaks = seq(from = 0, to = 1500, by = 25)) +
-  labs(title = "Math test scores by parental education",
-       caption = "Data: High School Longitudinal Study, 2009",
-       x = "Math score",
-       y = "Count") +
-  theme(panel.background = element_blank())
-
-## show 
-p
-
-## ---------------------------
-## themes: ver 2
-## ---------------------------
-
-## create histogram using ggplot
-p <- ggplot(data = df,
-            mapping = aes(x = math_test)) +
-  facet_wrap(~ factor(pared_coll,
-                      levels = c(0,1),
-                      labels = c("No college","College"))) + 
-  geom_histogram(bins = 50) +
-  scale_x_continuous(breaks = seq(from = 0, to = 100, by = 5),
-                     minor_breaks = seq(from = 0, to = 100, by = 1)) +
-  scale_y_continuous(breaks = seq(from = 0, to = 1500, by = 100),
-                     minor_breaks = seq(from = 0, to = 1500, by = 25)) +
-  labs(title = "Math test scores by parental education",
-       caption = "Data: High School Longitudinal Study, 2009",
-       x = "Math score",
-       y = "Count") +
-  theme(panel.background = element_blank(),
-        panel.grid.major = element_line(colour = "gray"),
-        panel.grid.minor = element_line(colour = "gray"))
-
-## show 
-p
-
-## ---------------------------
-## themes: ver 3
-## ---------------------------
-
-## create histogram using ggplot
-p <- ggplot(data = df,
-            mapping = aes(x = math_test)) +
-  facet_wrap(~ factor(pared_coll,
-                      levels = c(0,1),
-                      labels = c("No college","College"))) + 
-  geom_histogram(bins = 50) +
-  scale_x_continuous(breaks = seq(from = 0, to = 100, by = 5),
-                     minor_breaks = seq(from = 0, to = 100, by = 1)) +
-  scale_y_continuous(breaks = seq(from = 0, to = 1500, by = 100),
-                     minor_breaks = seq(from = 0, to = 1500, by = 25)) +
-  labs(title = "Math test scores by parental education",
-       caption = "Data: High School Longitudinal Study, 2009",
-       x = "Math score",
-       y = "Count") +
-  theme(panel.background = element_blank(),
-        panel.grid.major.x = element_line(colour = "grey"),
-        panel.grid.minor.x = element_line(colour = "grey"),
-        panel.grid.major.y = element_blank(),
-        panel.grid.minor.y = element_blank())
-
-## show 
-p
-
-## ---------------------------
-## themes: ver 4
-## ---------------------------
-
-## create histogram using ggplot
-p <- ggplot(data = df,
-            mapping = aes(x = math_test)) +
-  facet_wrap(~ factor(pared_coll,
-                      levels = c(0,1),
-                      labels = c("No college","College"))) + 
-  geom_histogram(bins = 50) +
-  scale_x_continuous(breaks = seq(from = 0, to = 100, by = 5),
-                     minor_breaks = seq(from = 0, to = 100, by = 1)) +
-  scale_y_continuous(breaks = seq(from = 0, to = 1500, by = 100),
-                     minor_breaks = seq(from = 0, to = 1500, by = 25)) +
-  labs(title = "Math test scores by parental education",
-       caption = "Data: High School Longitudinal Study, 2009",
-       x = "Math score",
-       y = "Count") +
-  theme(panel.background = element_blank(),
-        panel.grid.major.x = element_line(colour = "grey"),
-        panel.grid.minor.x = element_line(colour = "grey"),
-        panel.grid.major.y = element_blank(),
-        panel.grid.minor.y = element_blank(),
-        axis.title.y = element_blank(),
-        axis.text.y = element_blank(),
-        axis.ticks.y = element_blank())
-
-## show 
-p
-
-## ---------------------------
-## themes: ver 5
-## ---------------------------
-
-## create histogram using ggplot
-p <- ggplot(data = df,
-            mapping = aes(x = math_test)) +
-  facet_wrap(~ factor(pared_coll,
-                      levels = c(0,1),
-                      labels = c("No college","College"))) + 
-  geom_histogram(bins = 50) +
-  scale_x_continuous(breaks = seq(from = 0, to = 100, by = 5),
-                     minor_breaks = seq(from = 0, to = 100, by = 1)) +
-  scale_y_continuous(breaks = seq(from = 0, to = 1500, by = 100),
-                     minor_breaks = seq(from = 0, to = 1500, by = 25)) +
-  labs(title = "Math test scores by parental education",
-       caption = "Data: High School Longitudinal Study, 2009",
-       x = "Math score",
-       y = "Count") +
+p2 <- p2 +
   theme_bw()
 
 ## show 
-p
+p2
+
+
+p2 <- p2 +
+  theme_linedraw()
+
+## show 
+p2
+
+
+p2 <- p2 +
+  theme(axis.ticks.x = element_line(linewidth = 0.8,
+                                    lineend = "round"))
+
+## show 
+p2
 
 ## -----------------------------------------------------------------------------
-## multiple plots with patchwork
+##' [Multiple plots with patchwork]
 ## -----------------------------------------------------------------------------
 
-## remove missing values
+## Make a nice looking second plot of math scores by by parental education
+
 df <- df |>
-  mutate(pov185 = fix_missing(x1poverty185, c(-8,-9))) |>
-  drop_na(pov185)
+  mutate(x1region = factor(x1region,
+                           levels = c(1,2,3,4),
+                           labels = c("Northeast", "Midwest", "South", "West")))
 
-## make histogram
-p2 <- ggplot(data = df,
-            mapping = aes(x = math_test)) +
-  facet_wrap(~ factor(pov185,
-                      levels = c(0,1),
-                      labels = c("Below 185% poverty line",
-                                 "Above 185% poverty line"))) + 
-  geom_histogram(bins = 50) +
-  scale_x_continuous(breaks = seq(from = 0, to = 100, by = 5),
-                     minor_breaks = seq(from = 0, to = 100, by = 1)) +
-  scale_y_continuous(breaks = seq(from = 0, to = 1500, by = 100),
-                     minor_breaks = seq(from = 0, to = 1500, by = 25)) +
-  labs(title = "Math test scores by poverty level",
-       caption = "Data: High School Longitudinal Study, 2009",
-       x = "Math score",
-       y = "Count") +
-  theme_bw()
+p3 <- ggplot(df) +
+  geom_boxplot(mapping = aes(x = pared_coll,
+                             y = x1txmtscor,
+                             fill = pared_coll),
+               alpha = 0.66) +
+  scale_fill_viridis_d(option = "magma", begin = 0.2, end = 0.8) +
+  labs(x = NULL,
+       y = "Math Score",
+       fill = "Parental Education") +
+  theme_linedraw()
 
 ## show
-p2
+p3
 
 ## ---------------------------
 ## patchwork: side by side
 ## ---------------------------
 
 ## use plus sign for side by side
-pp <- p + p2
+p2 + p3
 
-## show
-pp
+p2 <- p2 +
+  scale_fill_viridis_d(option = "magma", begin = 0.2, end = 0.8)
 
-## ---------------------------
-## patchwork: stack
-## ---------------------------
+p2 + p3
 
-## use forward slash to stack
-pp <- p / p2
+p2 / p3
 
-## show
-pp
+p2 / p3 + plot_layout(design = "AAAAA
+                                               #BBB#")
 
-## ---------------------------
-## patchwork: 2 over 1
-## ---------------------------
-
-## drop missing SES values
-df <- df |>
-  mutate(ses = fix_missing(x1ses, -8)) |>
-  drop_na(ses)
-
-## create third histogram of just SES
-p3 <- ggplot(data = df,
-             mapping = aes(x = x1ses)) + 
-  geom_histogram(bins = 50) +
-  scale_x_continuous(breaks = seq(from = -5, to = 5, by = 1),
-                     minor_breaks = seq(from = -5, to = 5, by = 0.5)) +
-  scale_y_continuous(breaks = seq(from = 0, to = 1000, by = 100),
-                     minor_breaks = seq(from = 0, to = 1000, by = 25)) +
-  labs(title = "Socioeconomic score",
-       caption = "Data: High School Longitudinal Study, 2009",
-       x = "SES",
-       y = "Count") +
-  theme_bw()
-
-## show
-p3
-
-## use parentheses to put figures together (like in algebra)
-pp <- (p + p2) / p3
-
-## show
-pp
-
-## ---------------------------
-## patchwork: clean up
-## ---------------------------
-
-## Redo the above plots so that:
-## - remove some redundant captions
-## - change base_size so font is smaller
-
-## test score by parental education
-p1 <- ggplot(data = df,
-            mapping = aes(x = math_test)) +
-  facet_wrap(~ factor(pared_coll,
-                      levels = c(0,1),
-                      labels = c("No college","College"))) + 
-  geom_histogram(bins = 50) +
-  scale_x_continuous(breaks = seq(from = 0, to = 100, by = 5),
-                     minor_breaks = seq(from = 0, to = 100, by = 1)) +
-  scale_y_continuous(breaks = seq(from = 0, to = 1500, by = 100),
-                     minor_breaks = seq(from = 0, to = 1500, by = 25)) +
-  labs(title = "Math test scores by parental education",
-       x = "Math score",
-       y = "Count") +
-  theme_bw(base_size = 8)
-
-## test score by poverty level
-p2 <- ggplot(data = df,
-            mapping = aes(x = math_test)) +
-  facet_wrap(~ factor(pov185,
-                      levels = c(0,1),
-                      labels = c("Below 185% poverty line",
-                                 "Above 185% poverty line"))) + 
-  geom_histogram(bins = 50) +
-  scale_x_continuous(breaks = seq(from = 0, to = 100, by = 5),
-                     minor_breaks = seq(from = 0, to = 100, by = 1)) +
-  scale_y_continuous(breaks = seq(from = 0, to = 1500, by = 100),
-                     minor_breaks = seq(from = 0, to = 1500, by = 25)) +
-  labs(title = "Math test scores by poverty level",
-       x = "Math score",
-       y = "Count") +
-  theme_bw(base_size = 8)
-
-## create third histogram of just SES
-p3 <- ggplot(data = df,
-             mapping = aes(x = x1ses, y = math_test)) + 
-  geom_point() +
-  scale_x_continuous(breaks = seq(from = -5, to = 5, by = 1),
-                     minor_breaks = seq(from = -5, to = 5, by = 0.5)) +
-  scale_y_continuous(breaks = seq(from = 0, to = 100, by = 10),
-                     minor_breaks = seq(from = 0, to = 100, by = 5)) +
-  labs(title = "Math test scores by socioeconomic status",
-       x = "SES",
-       y = "Math score") +
-  theme_bw(base_size = 8)
-
-## use parentheses to put figures together (like in algebra)
-pp <- (p1 + p2) / p3
-
-## add annotations
-pp <- pp + plot_annotation(
-  title = "Math scores across various factors",
-  caption = "Data: High School Longitudinal Study, 2009",
-  tag_levels = "A"
-)
-
-## show
-pp
+p2 / p3 + guide_area() + plot_layout(design = "AAAAA
+                                               BBBCC",
+                                     guides= "collect")
 
 
-## =============================================================================
-## END SCRIPT
-################################################################################
+
+
+
+
+## -----------------------------------------------------------------------------
+##' *END SCRIPT*
+## -----------------------------------------------------------------------------

@@ -1,11 +1,14 @@
-################################################################################
+## -----------------------------------------------------------------------------
 ##
-## <PROJ> EDH7916: Data visualization with ggplot2
-## <FILE> plotting.R 
-## <INIT> 9 March 2020
-## <AUTH> Benjamin Skinner (GitHub/Twitter: @btskinner)
+##' [PROJ: EDH7916: Data visualization with ggplot2]
+##' [FILE: 05-viz-i.R]
+##' [INIT: 9 March 2020]
+##' [AUTH: Benjamin Skinner @btskinner]
+##' [EDIT: Matt Capaldi @ttalVlatt]
 ##
-################################################################################
+## -----------------------------------------------------------------------------
+
+
 
 ## ---------------------------
 ## libraries
@@ -14,7 +17,7 @@
 library(tidyverse)
 
 ## ---------------------------
-## input data
+## input data\
 ## ---------------------------
 
 ## read_dta() ==> read in Stata (*.dta) files
