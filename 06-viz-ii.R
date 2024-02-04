@@ -26,7 +26,6 @@ df <- read_csv(file.path("data", "hsls-small.csv"))
 ## -----------------------------------------------------------------------------
 
 ## Drop missing values for math test score
-## Note: they would be dropped by ggplot anyway, but this prevents that warning
 df <- df |>
   filter(x1txmtscor != -8)
 
@@ -175,12 +174,6 @@ p2
 ## -----------------------------------------------------------------------------
 
 ## Make a nice looking second plot of math scores by by parental education
-
-df <- df |>
-  mutate(x1region = factor(x1region,
-                           levels = c(1,2,3,4),
-                           labels = c("Northeast", "Midwest", "South", "West")))
-
 p3 <- ggplot(df) +
   geom_boxplot(mapping = aes(x = pared_coll,
                              y = x1txmtscor,
@@ -219,6 +212,12 @@ p2 / p3 + guide_area() + plot_layout(design = "AAAAA
 
 
 p2 / p3 + guide_area() + plot_layout(design = "AAAAA
+                                               BBBCC",
+                                     guides= "collect") +
+  plot_annotation(title = "Math Test Scores Differences by Parental Education",
+                  caption = "Data: High School Longitudinal Study, 2009")
+
+patch <- p2 / p3 + guide_area() + plot_layout(design = "AAAAA
                                                BBBCC",
                                      guides= "collect") +
   plot_annotation(title = "Math Test Scores Differences by Parental Education",
