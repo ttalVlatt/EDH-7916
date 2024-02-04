@@ -202,15 +202,15 @@ p3
 ## use plus sign for side by side
 p2 + p3
 
+p2 / p3
+
 p2 <- p2 +
   scale_fill_viridis_d(option = "magma", begin = 0.2, end = 0.8)
-
-p2 + p3
 
 p2 / p3
 
 p2 / p3 + plot_layout(design = "AAAAA
-                                               #BBB#")
+                                #BBB#")
 
 p2 / p3 + guide_area() + plot_layout(design = "AAAAA
                                                BBBCC",
