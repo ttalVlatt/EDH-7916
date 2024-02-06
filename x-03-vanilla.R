@@ -14,9 +14,8 @@
 ## NONE
 
 
-## -----------------------------------------------------------------------------
-## Wrangle data
-## -----------------------------------------------------------------------------
+## Check working directory is correct
+setwd(this.path::here())
 
 ## ---------------------------
 ## input
@@ -27,9 +26,6 @@ df <- read.csv(file.path("data", "hsls-small.csv"))
 
 ## show first 10 rows
 head(df, n = 10)
-
-## show column types
-sapply(df, class)
 
 ## ---------------------------
 ## process
@@ -64,19 +60,16 @@ table(df_tmp$x1stuedexpct, useNA = "ifany")
 ## see unique values for parental expectation
 table(df_tmp$x1paredexpct, useNA = "ifany")
 
-## each version pulls the column of data for student expectations
-## TRUE == 1, so if the mean of all values == 1, then all are TRUE
-mean(df_tmp$x1stuedexpct == df_tmp[, "x1stuedexpct"]) == 1
-mean(df_tmp$x1stuedexpct == df_tmp[["x1stuedexpct"]]) == 1
+## This will just print a bunch of -8s
+df_tmp$x1stuedexpct[df_tmp$x1stuedexpct == -8]
 
 ## replace student expectation values
 df_tmp$x1stuedexpct[df_tmp$x1stuedexpct == -8] <- NA
 df_tmp$x1stuedexpct[df_tmp$x1stuedexpct == 11] <- NA
 
+
 ## replace parent expectation values
-df_tmp$x1paredexpct[df_tmp$x1paredexpct == -8] <- NA
-df_tmp$x1paredexpct[df_tmp$x1paredexpct == -9] <- NA
-df_tmp$x1paredexpct[df_tmp$x1paredexpct == 11] <- NA
+df_tmp$x1paredexpct[df_tmp$x1paredexpct %in% c(-8, -9, 11)] <- NA
 
 ## see unique values for student expectation (confirm changes)
 table(df_tmp$x1stuedexpct, useNA = "ifany")
@@ -150,16 +143,6 @@ table(df_tmp$x1region, useNA = "ifany")
 df_tmp <- aggregate(df_tmp["high_expct"],                # var of interest
                     by = list(region = df_tmp$x1region), # by group
                     FUN = mean)                          # function to run
-
-## show
-df_tmp
-
-## -----------------
-## arrange
-## -----------------
-
-## arrange from highest expectations (first row) to lowest
-df_tmp <- df_tmp[order(df_tmp$high_expct, decreasing = TRUE),]
 
 ## show
 df_tmp
