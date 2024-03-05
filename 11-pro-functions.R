@@ -1,11 +1,24 @@
-################################################################################
+library(tidyverse)
+
+df <- haven::read_dta("data/hsls-small.dta")
+
+plot <- ggplot(df) +
+  geom_histogram(aes(x = x1txmtscor))
+
+df_sum <- df |>
+  summarize(mean = mean(x1txmtscor, na.rm = T))
+
+uf_age <- 2024 - 1853
+
+## -----------------------------------------------------------------------------
 ##
-## <PROJ> EDH7916: Functional programming
-## <FILE> programming.R 
-## <INIT> 14 February 2020
-## <AUTH> Benjamin Skinner (GitHub/Twitter: @btskinner)
+##' [PROJ: EDH7916: Data visualization with ggplot2]
+##' [FILE: 11-pro-functions.R]
+##' [INIT: 5 March 2024]
+##' [AUTH: Benjamin Skinner @btskinner]
+##' [EDIT: Matt Capaldi @ttalVlatt]
 ##
-################################################################################
+## -----------------------------------------------------------------------------
 
 ## ---------------------------
 ## libraries
@@ -14,49 +27,131 @@
 library(tidyverse)
 
 ## -----------------------------------------------------------------------------
-## Part I: Control flow
+##' [For Loops]
 ## -----------------------------------------------------------------------------
 
-## ---------------------------
-## for
-## ---------------------------
+matts_list <- c("Let's", "go", "Gators", "!")
 
-## make vector of numbers between 1 and 10
-num_sequence <- 1:10
+for(i in matts_list) { print(i) }
 
-## loop through, printing each num_sequence value, one at a time
-for (i in num_sequence) {
+for(word in matts_list) { print(word) }
+
+for(gator_egg in matts_list) { print(gator_egg) }
+
+gators_points_23 <- c(11, 49, 29, 22, 14, 38, 41, 20, 36, 35, 31, 15)
+
+for(i in gators_points_23) { print(i) }
+
+for(billy_napier in gators_points_23) { print(billy_napier) }
+
+for(i in gators_points_23) {
+  if(i > 30) {
     print(i)
+  }
 }
 
-## character vector using letters object from R base
-chr_sequence <- letters[1:10]
-
-## loop through, printing each chr_sequence value, one at a time
-for (i in chr_sequence) {
+for(i in gators_points_23) {
+  if(i > 30) {
     print(i)
+  } else {
+    print(i)
+  }
 }
 
-## for loop by indices
-for (i in 1:length(chr_sequence)) {
-    print(chr_sequence[i])
+for(i in gators_points_23) {
+  if(i > 30) {
+    paste("Yay the Gators scored", i, "points, which is more than 30!") |> print()
+  } else {
+    print(i)
+  }
 }
+
+for(i in gators_points_23) {
+  if(i > 30) {
+    paste("Yay, the Gators scored", i, "points, which is more than 30!") |> print()
+  } else {
+    paste("Sad times, the Gators only scored", i, "points...") |> print()
+  }
+}
+
+## -----------------------------------------------------------------------------
+##' [Functions]
+## -----------------------------------------------------------------------------
+
+welcome <- function() { print("Welcome to UF!") }
+
+welcome()
+
+fake_data <- tribble(~ufid, ~name, ~dorm, ~first_class, ~meal_plan, ~roommate,
+                     1853, "Jack", "Cyprus", "BIO-1001", 1, "Mike",
+                     1854, "Hailey", "Simpson", "BIO-1001", 0, "Jessica",
+                     1855, "Tamika", "Simpson", "CHEM-1002", 1, "Hannah",
+                     1856, "Jessica", "Simpson", "ARCH-1003", 1, "Hailey",
+                     1857, "Mike", "Cyrpus", "STA-1002", 0, "Jack",
+                     1858, "Hannah", "Simpson", "EDF-1005", 1, "Tamika")
+
+welcome <- function(id) { print("Welcome to UF!") }
+
+welcome()
+
+welcome <- function(id) {
+  
+  student <- fake_data |> filter(ufid == id)
+  
+  print(student)
+  
+}
+
+welcome(1853)
+
+welcome <- function(id) {
+  
+  student <- fake_data |> filter(ufid == id)
+  
+  name <- student |> pull(name)
+  
+  paste("Welcome to UF", name)
+  
+}
+
+welcome(1853)
+
+welcome <- function(id) {
+  
+  student <- fake_data |> filter(ufid == id)
+  
+  name <- student |> pull(name)
+  dorm <- student |> pull(dorm)
+  first_class <- student |> pull(first_class)
+  
+  paste("Welcome to UF", name, "you will be living in", dorm, "and your first class is", first_class)
+  
+}
+
+welcome(1853)
+
+
+
+# ## for loop by indices
+# for (i in 1:length(chr_sequence)) {
+#     print(chr_sequence[i])
+# }
 
 ## for loop by indices (just show indices)
-for (i in 1:length(chr_sequence)) {
-    print(i)
-}
+# for (i in 1:length(chr_sequence)) {
+#     print(i)
+# }
 
 ## confirm that we can use variables as indices
-i <- 1                     # set i == 1
-chr_sequence[i]      
-i <- 2                     # now set i == 2
-chr_sequence[i]            # notice that code is exactly the same here
+# i <- 1                     # set i == 1
+# chr_sequence[i]      
+# i <- 2                     # now set i == 2
+# chr_sequence[i]            # notice that code is exactly the same here
 
 ## for loop by indices (once again)
-for (i in 1:length(chr_sequence)) {
-    print(chr_sequence[i])
-}
+# for (i in 1:length(chr_sequence)) {
+#     print(chr_sequence[i])
+# }
 
 ## ---------------------------
 ## while
@@ -75,22 +170,22 @@ while(i < 11) {
 ## ---------------------------
 
 ## only print if number is not 5
-for (i in num_sequence) {
-    if (i != 5) {
-        print(i)
-    }
-}
+# for (i in num_sequence) {
+#     if (i != 5) {
+#         print(i)
+#     }
+# }
 
-## if/else loop
-for (i in num_sequence) {
-    if (i != 3 & i != 5) {
-        print(i)
-    } else if (i == 3) {
-        print('three')
-    } else {
-        print('five')
-    }
-}
+# ## if/else loop
+# for (i in num_sequence) {
+#     if (i != 3 & i != 5) {
+#         print(i)
+#     } else if (i == 3) {
+#         print('three')
+#     } else {
+#         print('five')
+#     }
+# }
 
 ## -----------------------------------------------------------------------------
 ## Part II: Writing functions
