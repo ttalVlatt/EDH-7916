@@ -1,3 +1,13 @@
+## -----------------------------------------------------------------------------
+##
+##' [PROJ: EDH7916: Data visualization with ggplot2]
+##' [FILE: 11-pro-functions.R]
+##' [INIT: 5 March 2024]
+##' [AUTH: Benjamin Skinner @btskinner]
+##' [EDIT: Matt Capaldi @ttalVlatt]
+##
+## -----------------------------------------------------------------------------
+
 library(tidyverse)
 
 df <- haven::read_dta("data/hsls-small.dta")
@@ -9,22 +19,6 @@ df_sum <- df |>
   summarize(mean = mean(x1txmtscor, na.rm = T))
 
 uf_age <- 2024 - 1853
-
-## -----------------------------------------------------------------------------
-##
-##' [PROJ: EDH7916: Data visualization with ggplot2]
-##' [FILE: 11-pro-functions.R]
-##' [INIT: 5 March 2024]
-##' [AUTH: Benjamin Skinner @btskinner]
-##' [EDIT: Matt Capaldi @ttalVlatt]
-##
-## -----------------------------------------------------------------------------
-
-## ---------------------------
-## libraries
-## ---------------------------
-
-library(tidyverse)
 
 ## -----------------------------------------------------------------------------
 ##' [For Loops]
