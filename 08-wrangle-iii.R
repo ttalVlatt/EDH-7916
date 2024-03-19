@@ -157,7 +157,9 @@ df |> filter(clean_date < christmas_07)
 df |> filter(abs(time_length(interval(clean_date, christmas_07), "day")) < 30)
 
 ## Internal pipes version
-df |> filter(interval(clean_date, christmas_07) |> time_length("day") |> abs() < 30)
+df |> filter(interval(clean_date, christmas_07) |>
+               time_length("day") |>
+               abs() < 30)
 
 df |> 
   mutate(quarter = quarter(clean_date)) |>
