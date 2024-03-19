@@ -153,12 +153,15 @@ christmas_07 <- parse_date_time("Dec 25 2007", "mdy")
 
 df |> filter(clean_date < christmas_07)
 
-df |> filter(time_length(interval(clean_date, christmas_07), "day") < 30)
+## Nested version
+df |> filter(abs(time_length(interval(clean_date, christmas_07), "day")) < 30)
 
+## Internal pipes version
+df |> filter(interval(clean_date, christmas_07) |> time_length("day") |> abs() < 30)
 
 df |> 
-  mutate(semester = quarter(clean_date)) |>
-  count(semester)
+  mutate(quarter = quarter(clean_date)) |>
+  count(quarter)
 
 df |>
   mutate(day = wday(clean_date, label = TRUE)) |>
