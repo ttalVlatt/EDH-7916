@@ -1,3 +1,13 @@
+## -----------------------------------------------------------------------------
+##
+##' [PROJ: EDH 7916]
+##' [FILE: 08-wrangle-iii.R]
+##' [INIT: 18 March 2024]
+##' [AUTH: Benjamin Skinner @btskinner]
+##' [EDIT: Matt Capaldi @ttalVlatt]
+##
+## -----------------------------------------------------------------------------
+
 ################################################################################
 ##
 ## <PROJ> EDH7916: Data Wrangling III: Working with strings and dates
@@ -104,57 +114,56 @@ df |>
 
 
 ## -----------------------------------------------------------------------------
-## Working with dates
+##' [Working with Dates]
 ## -----------------------------------------------------------------------------
-
 
 ## subset to schools who closed during this period
 df <- df |>
-    filter(closedat != -2)
+  filter(closedat != -2) |>
+  select(unitid, instnm, closedat)
 
-## show first few rows
-df |> select(unitid, instnm, closedat)
+df
 
 
-## create a new close date column 
+## create a new clean_date column 
 df <- df |>
-    mutate(closedat_dt = mdy(closedat))
+    mutate(clean_date = parse_date_time(closedat,
+                                        orders = "mdy"))
 
 ## show
-df |> select(starts_with("close"))
+df
 
-## convert MON-YYYY to MON-01-YYYY
+## Try adding another date format
 df <- df |>
-    mutate(closedat_fix = str_replace(closedat, "-", "-01-"),
-           closedat_fix_dt = mdy(closedat_fix))
+    mutate(clean_date = parse_date_time(closedat,
+                                        orders = c("mdy", "my")))
 
 ## show
-df |> select(starts_with("close"))                                
+df
 
-## add columns for
-## - year
-## - month
-## - day
-## - day of week (dow)
-df <- df |>
-    mutate(close_year = year(closedat_fix_dt),
-           close_month = month(closedat_fix_dt),
-           close_day = day(closedat_fix_dt),
-           close_dow = wday(closedat_fix_dt, label = TRUE))
-## show
 df |>
-    select(closedat_fix_dt, close_year, close_month, close_day, close_dow)
+  filter(is.na(clean_date))
 
-## how long since the institution closed
-## - as of 1 January 2020
-## - as of today
 df <- df |>
-    mutate(time_since_close_jan = ymd("2020-01-01") - closedat_fix_dt,
-           time_since_close_now = today() - closedat_fix_dt)
+  drop_na(clean_date)
 
-## show
-df |> select(starts_with("time_since_close"))
+df |> filter(clean_date == min(clean_date))
+
+christmas_07 <- parse_date_time("Dec 25 2007", "mdy")
+
+df |> filter(clean_date < christmas_07)
+
+df |> filter(time_length(interval(clean_date, christmas_07), "day") < 30)
+
+
+df |> 
+  mutate(semester = quarter(clean_date)) |>
+  count(semester)
+
+df |>
+  mutate(day = wday(clean_date, label = TRUE)) |>
+  count(day)
 
 ## -----------------------------------------------------------------------------
-## end script
-################################################################################
+##' *END SCRIPT*
+## -----------------------------------------------------------------------------

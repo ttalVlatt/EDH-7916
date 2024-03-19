@@ -1,6 +1,6 @@
 ## -----------------------------------------------------------------------------
 ##
-##' [PROJ: EDH7916: Data visualization with ggplot2]
+##' [PROJ: EDH 7916]
 ##' [FILE: 11-pro-functions.R]
 ##' [INIT: 5 March 2024]
 ##' [AUTH: Benjamin Skinner @btskinner]
