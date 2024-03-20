@@ -172,3 +172,5 @@ ggplot() +
   geom_sf(data = df_st,
           aes(),
           size = 0.1)
+
+## NA
