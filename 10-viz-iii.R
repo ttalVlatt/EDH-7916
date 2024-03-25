@@ -140,14 +140,13 @@ point_map +
 
 df_school_dist_tx <- school_districts(cb = TRUE, state = "TX")
 
+
 ggplot() +
   geom_sf(data = df_school_dist_tx,
           aes())
 
+##' [States]
 
-## ---------------------------
-## get states geometries
-## ---------------------------
 df_st <- states(cb = TRUE, resolution = "20m") |>
   filter(STATEFP <= 56) # keeping only the 50 states plus D.C.
 
