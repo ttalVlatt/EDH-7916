@@ -66,7 +66,7 @@ st_crs(df_census)
 df_census <- df_census |>
   st_transform(crs = 4326)
 
-## show CRS again; notice how it changed from NAD93 to ESPG:4326
+## show CRS again; notice how it changed from NAD93 to EPSG:4326
 st_crs(df_census) 
 
 ## create base map
