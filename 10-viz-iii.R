@@ -171,6 +171,11 @@ ggplot() +
           aes(),
           size = 0.1)
 
+ggplot() +
+  geom_sf(data = shift_geometry(df_st) |> st_transform(6684),
+          aes(),
+          size = 0.1)
+
 ## change CRS to requirements for Peters projection
 ## h/t https://gis.stackexchange.com/questions/194295/getting-borders-as-svg-using-peters-projection
 pp_crs <- "+proj=cea +lon_0=0 +x_0=0 +y_0=0 +lat_ts=45 +ellps=WGS84 +datum=WGS84 +units=m +no_defs"
