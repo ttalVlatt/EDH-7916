@@ -7,12 +7,12 @@
 ##
 ## -----------------------------------------------------------------------------
 
-## ---------------------------
-##' [libraries]
-## ---------------------------
-
-## Install new packages
-install.packages(c("sf", "tidycensus", "tigris"))
+## ## ---------------------------
+## ##' [libraries]
+## ## ---------------------------
+## 
+## ## Install new packages
+## install.packages(c("sf", "tidycensus", "tigris"))
 
 library(tidyverse)
 library(sf)
@@ -27,7 +27,7 @@ library(tigris)
 ## ## quotes with the key in the email you received
 ## ##
 ## ## eg. census_api_key("XXXXXXXXXXXXXXXXXX", install = T)
-## census_api_key("<Your API Key Here>", install = T)
+## census_api_key("<key>", install = T)
 
 ## ---------------------------
 ##' [Get ACS Data]
@@ -49,6 +49,8 @@ df_census_view <- df_census |>
   st_drop_geometry()
 
 head(df_census_view)
+
+
 
 ## ---------------------------------------------------------
 ##' [Making a map (finally)]
