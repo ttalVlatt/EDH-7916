@@ -1,30 +1,26 @@
-################################################################################
+## -----------------------------------------------------------------------------
 ##
-## <PROJ> EDH7916: Introduction to Mapping in R
-## <FILE> mapping_api.R 
-## <INIT> 5 March 2023
-## <AUTH> Matt Capaldi
+##' [PROJ: EDH 7916]
+##' [FILE: Maps & Spatial Data (Feat. APIs)]
+##' [INIT: March 5th 2023]
+##' [AUTH: Matt Capaldi] @ttalVlatt
 ##
-################################################################################
-
+## -----------------------------------------------------------------------------
 
 ## ---------------------------
-## libraries
+##' [libraries]
 ## ---------------------------
+
+## Install new packages
+install.packages(c("sf", "tidycensus", "tigris"))
+
 library(tidyverse)
 library(sf)
 library(tidycensus)
 library(tigris)
 
 ## ## ---------------------------
-## ## example of shapefile read
-## ## ---------------------------
-## 
-## ## pseudo code (won't run!)
-## df <- read_sf(file.path("<Data-Folder>", "<Folder-You-Downloaded>", "<Shapefile-Name>.shp"))
-
-## ## ---------------------------
-## ## set API key
+## ##' [set API key]
 ## ## ---------------------------
 ## 
 ## ## you only need to do this once: replace everything between the
@@ -34,7 +30,7 @@ library(tigris)
 ## census_api_key("<Your API Key Here>", install = T)
 
 ## ---------------------------
-## first data pull
+##' [Get ACS Data]
 ## ---------------------------
 
 df_census <- get_acs(geography = "county",
@@ -44,18 +40,21 @@ df_census <- get_acs(geography = "county",
                      output = "wide",
                      geometry = TRUE)
 
+
 ## show header of census data
 head(df_census)
 
-## view data frame without geometry data (not assigning, just viewing)
-df_census |>
+## view data frame without geometry data
+df_census_view <- df_census |>
   st_drop_geometry()
 
+head(df_census_view)
+
 ## ---------------------------------------------------------
-## making a map
+##' [Making a map (finally)]
 ## ---------------------------------------------------------
 ## ---------------------------
-## layer one: base map
+##' [Layer one: base map]
 ## ---------------------------
 
 ## show CRS for dataframe
@@ -82,11 +81,11 @@ base_map <- ggplot() +
 base_map
 
 ## ---------------------------
-## layer two: institutions
+##' [Layer Two: Institutions]
 ## ---------------------------
 
 ## read in IPEDS data
-df_ipeds <- read_csv(file.path("data", "mapping-api-data.csv"))
+df_ipeds <- read_csv("data/mapping-api-data.csv")
 
 ## show IPEDS data
 head(df_ipeds)
@@ -124,12 +123,23 @@ point_map <- base_map +
 point_map
 
 ## ---------------------------------------------------------
-## supplemental using tigris directly
+##' [Supplemental using tigris directly]
 ## ---------------------------------------------------------
+
+##' [TX School Districts]
+
+df_school_dist_tx <- school_districts(cb = TRUE, state = "TX")
+
+ggplot() +
+  geom_sf(data = df_school_dist_tx,
+          aes())
+
+
+
 ## ---------------------------
 ## get states geometries
 ## ---------------------------
-df_st <- states() |>
+df_st <- states(cb = TRUE, resolution = "20m") |>
   filter(STATEFP <= 56) # keeping only the 50 states plus D.C.
 
 ## look at head of state data
@@ -141,35 +151,24 @@ ggplot() +
           aes(),
           size = 0.1) # keep the lines thin, speeds up plotting processing
 
-## shift position of Hawaii and Alaska
-df_st <- df_st |>
-  shift_geometry(position = "below")
-
 ## replotting with shifted Hawaii and Alaska
 ggplot() +
-  geom_sf(data = df_st,
+  geom_sf(data = shift_geometry(df_st),
           aes(),
           size = 0.1) # keep the lines thin, speeds up plotting processing
 
 ## change CRS to what we used for earlier map
-df_st <- df_st |>
-  st_transform(crs = 4326)
-
-## make make
 ggplot() +
-  geom_sf(data = df_st,
+  geom_sf(data = shift_geometry(df_st) |> st_transform(4326),
           aes(),
           size = 0.1)
 
 ## change CRS to requirements for Peters projection
 ## h/t https://gis.stackexchange.com/questions/194295/getting-borders-as-svg-using-peters-projection
 pp_crs <- "+proj=cea +lon_0=0 +x_0=0 +y_0=0 +lat_ts=45 +ellps=WGS84 +datum=WGS84 +units=m +no_defs"
-df_st <- df_st |>
-  st_transform(crs = pp_crs)
 
-## make mape
 ggplot() +
-  geom_sf(data = df_st,
+  geom_sf(data = shift_geometry(df_st) |> st_transform(pp_crs),
           aes(),
           size = 0.1)
 
