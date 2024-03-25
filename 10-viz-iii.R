@@ -82,6 +82,10 @@ base_map <- ggplot() +
 ## call base map by itself
 base_map
 
+base_map +
+  scale_fill_gradient(low = "#ffd8a9", high = "#b36200") +
+  theme_void()
+
 ## ---------------------------
 ##' [Layer Two: Institutions]
 ## ---------------------------
@@ -124,6 +128,10 @@ point_map <- base_map +
 ## show new map
 point_map
 
+## show new map
+point_map +
+  scale_size_continuous(labels = scales::label_comma()) # h/t https://stackoverflow.com/questions/14563989/force-r-to-stop-plotting-abbreviated-axis-labels-scientific-notation-e-g-1e
+
 ## ---------------------------------------------------------
 ##' [Supplemental using tigris directly]
 ## ---------------------------------------------------------
@@ -135,7 +143,6 @@ df_school_dist_tx <- school_districts(cb = TRUE, state = "TX")
 ggplot() +
   geom_sf(data = df_school_dist_tx,
           aes())
-
 
 
 ## ---------------------------
