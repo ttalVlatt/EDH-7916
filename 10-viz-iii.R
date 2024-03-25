@@ -82,9 +82,7 @@ base_map <- ggplot() +
 ## call base map by itself
 base_map
 
-base_map +
-  scale_fill_gradient(low = "#ffd8a9", high = "#b36200") +
-  theme_void()
+
 
 ## ---------------------------
 ##' [Layer Two: Institutions]
@@ -128,9 +126,7 @@ point_map <- base_map +
 ## show new map
 point_map
 
-## show new map
-point_map +
-  scale_size_continuous(labels = scales::label_comma()) # h/t https://stackoverflow.com/questions/14563989/force-r-to-stop-plotting-abbreviated-axis-labels-scientific-notation-e-g-1e
+
 
 ## ---------------------------------------------------------
 ##' [Supplemental using tigris directly]
@@ -171,10 +167,7 @@ ggplot() +
           aes(),
           size = 0.1)
 
-ggplot() +
-  geom_sf(data = shift_geometry(df_st) |> st_transform(6684),
-          aes(),
-          size = 0.1)
+
 
 ## change CRS to requirements for Peters projection
 ## h/t https://gis.stackexchange.com/questions/194295/getting-borders-as-svg-using-peters-projection
