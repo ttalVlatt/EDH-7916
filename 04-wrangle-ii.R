@@ -201,3 +201,60 @@ df_wide
 ## -----------------------------------------------------------------------------
 
 ## NA
+
+data_info <- read_csv("data/hd2022.csv")
+data_enroll <- read_csv("data/effy2022.csv")
+
+data_info
+
+data_enroll
+
+data_enroll <- data_enroll |>
+  select(UNITID, EFFYLEV, EFYTOTLT, EFYNRALT)
+
+data_enroll
+
+
+data_enroll <- data_enroll |>
+  filter(EFFYLEV %in% c(2,4))
+  
+data_enroll
+
+
+
+data_enroll <- data_enroll |>
+  mutate(perc_intl = EFYNRALT/EFYTOTLT*100) |>
+  select(-EFYTOTLT, -EFYNRALT) # - in select means drop this variable
+
+data_enroll
+
+data_enroll <- data_enroll |>
+  pivot_wider(names_from = EFFYLEV,
+              values_from = perc_intl,
+              names_prefix = "perc_intl_")
+
+data_enroll
+
+data_enroll <- data_enroll |>
+  mutate(perc_intl_diff = perc_intl_2 - perc_intl_4)
+
+data_enroll
+
+data_enroll |>
+  drop_na() |>
+  summarize(mean = mean(perc_intl_diff),
+            min = min(perc_intl_diff),
+            max = max(perc_intl_diff))
+            
+
+data_info <- data_info |>
+  select(UNITID, CONTROL)
+
+data_joined <- left_join(data_enroll, data_info, by = "UNITID")
+
+data_joined
+
+data_joined |>
+  group_by(CONTROL) |>
+  drop_na() |>
+  summarize(mean = mean(perc_intl_diff))
