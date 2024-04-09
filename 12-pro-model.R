@@ -1,7 +1,9 @@
+## install.packages(c("tidymodels", "estimatr", "stargazer"))
+
 ## -----------------------------------------------------------------------------
 ##
 ##' [PROJ: EDH 7916]
-##' [FILE: Modeling Basics]
+##' [FILE: Bringing It All Together feat. Basic Models]
 ##' [INIT: Jan 16th 2024]
 ##' [AUTH: Matt Capaldi] @ttalVlatt
 ##
@@ -14,62 +16,82 @@ setwd(this.path::here())
 ## ---------------------------
 
 library(tidyverse)
+library(tidymodels)
 library(estimatr)
+library(stargazer)
 
 
 ## ---------------------------
 ##' [Data Prep]
 ## ---------------------------
 
-df <- read_csv(file.path("data", "hsls-small.csv"))
+data <- read_csv("data/hsls-small.csv") |>
+      select(stu_id, x1sex, x1race, x1txmtscor, x1paredu, x1ses, x1poverty185, x1paredexpct)
 
-df <- df |>
-  select(stu_id, x1sex, x1race, x1txmtscor, x1paredu, x1ses, x1poverty185) |>
-  filter(! if_any(.cols = everything(),
-                  .fns = ~ . %in% c(-8, -9))) |>
-  mutate(across(.cols = ! c(x1txmtscor, x1ses),
-                .fns = ~ as.factor(.)))
+data <- data |>
+      filter(! if_any(.cols = everything(),
+                      .fns = ~ . %in% c(-8, -9)))
 
+data <- data |>
+  mutate(across(.cols = c(stu_id, x1sex, x1race, x1paredu, x1poverty185),
+                .fns = ~ factor(.)))
 
 ## ---------------------------
 ##' [t-tests]
 ## ---------------------------
 
-t.test(x1txmtscor ~ x1sex, data = df)
+t.test(x1txmtscor ~ x1sex, data = data)
 
 ## ---------------------------
 ##' [Regression]
 ## ---------------------------
 
-lm_sex <- lm(x1txmtscor ~ x1sex + x1poverty185 + x1paredu, data = df)
-summary(lm_sex)
+regression <- lm(x1txmtscor ~ x1sex + x1poverty185 + x1paredu, data = data)
+summary(regression)
+
+stargazer(regression, type = "text")
 
 ## ---------------------------
 ##' [Predictions with Regression]
 ## ---------------------------
 
-predictions <- predict(lm_sex)
+data <- data |>
+  mutate(prediction = predict(regression))
 
-df_unknown <- df |>
+data
+
+ggplot(data,
+       aes(x = prediction,
+           y = x1txmtscor)) +
+  geom_point() +
+  geom_smooth(method = "lm") +
+  coord_obs_pred()
+
+
+
+
+data_outcome_unknown <- data |>
   slice_sample(prop = 0.1) |>
   select(-x1txmtscor)
 
-df_train <- df |>
-  anti_join(df_unknown, by = "stu_id")
+data_outcome_known <-  anti_join(x = data, y = data_outcome_unknown, by = "stu_id")
 
-lm_sex_train <- lm(x1txmtscor ~ x1sex + x1poverty185 + x1paredu, data = df_train)
+regression_3 <- lm(x1txmtscor ~ x1sex + x1ses + x1paredu, data = data_outcome_known)
 
-predictions_new <- predict(lm_sex_train, newdata = df_unknown)
+data_outcome_unknown <- data_outcome_unknown |>
+  mutate(prediction_3 = predict(regression_3, newdata = data_outcome_unknown))
 
+cor(data_outcome_unknown$prediction_2, data_outcome_unknown$prediction_3)
 
 ## ---------------------------
 ##' [Extracting Residuals from Regression]
 ## ---------------------------
 
-residuals <- lm_sex[["residuals"]]
+data <- data |>
+  mutate(residual = regression_2[["residuals"]])
 
-ggplot() +
-  geom_histogram(aes(x = residuals),
+ggplot(data) +
+  geom_histogram(aes(x = residual),
                  color = "black",
                  fill = "skyblue")
 
@@ -78,13 +100,13 @@ ggplot() +
 ## ---------------------------
 
 
-matts_form <- formula(x1txmtscor ~ x1sex + x1poverty185 + x1paredu)
+regression_formula <- formula(x1txmtscor ~ x1sex + x1ses + x1paredu)
 
-lm_sex <- lm(matts_form, data = df)
-summary(lm_sex)
+regression_4 <- lm(regression_formula, data = data)
+summary(regression_4)
 
-lm_sex_robust <- lm_robust(matts_form, data = df)
-summary(lm_sex_robust)
+regression_robust <- lm_robust(regression_formula, data = data, se_type = "stata")
+summary(regression_robust)
 
 
 ## ---------------------------
@@ -92,15 +114,15 @@ summary(lm_sex_robust)
 ## ---------------------------
 
 
-outcomes <- c("x1txmtscor", "x1ses")
+outcomes <- c("x1txmtscor", "x1paredexpct")
 
 for(i in outcomes) {
   
   print(i)
   
-  loop_form <- formula(paste0(i, "~ x1sex + x1poverty185 + x1paredu"))
+  loop_formula <- formula(paste0(i, "~ x1sex + x1ses + x1paredu"))
   
-  loop_lm <- lm(loop_form, data = df)
+  loop_lm <- lm(loop_formula, data = data)
   
   print(summary(loop_lm))
   
