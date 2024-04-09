@@ -19,6 +19,7 @@ library(tidyverse)
 library(tidymodels)
 library(estimatr)
 library(stargazer)
+library(knitr)
 
 
 ## ---------------------------
@@ -50,6 +51,16 @@ regression <- lm(x1txmtscor ~ x1sex + x1poverty185 + x1paredu, data = data)
 summary(regression)
 
 stargazer(regression, type = "text")
+
+
+summary(regression)[["coefficients"]] |>
+  as.data.frame() |>
+  mutate(sig = case_when(`Pr(>|t|)` < 0.001 ~ "***",
+                         `Pr(>|t|)` < 0.01 ~ "**",
+                         `Pr(>|t|)` < 0.05 ~ "*",
+                         TRUE ~ "")) |>
+  kable(col.names = c("estimate", "s.e.", "t", "p", ""))
+
 
 ## ---------------------------
 ##' [Predictions with Regression]
