@@ -85,7 +85,7 @@ summary_object[["coefficients"]] |>
 data <- data |>
   mutate(prediction = predict(regression))
 
-data
+data |> select(stu_id, x1txmtscor, prediction)
 
 ggplot(data,
        aes(x = prediction,
