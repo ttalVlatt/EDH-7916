@@ -66,18 +66,6 @@ tbl_regression(regression,
   add_glance_source_note(include = c(r.squared, nobs)) |>
   modify_column_unhide(std.error)
 
-matts_regression_table <- function(regression) {
-  
-  tbl_regression(regression,
-                 label = list(x1sex ~ "Sex",
-                              x1ses ~ "Socio-Economic Status",
-                              x1paredu ~ "Parental Education")) |>
-    modify_column_unhide(std.error) |>
-    add_significance_stars(hide_ci = FALSE, hide_p = FALSE) |>
-    add_glance_source_note(include = c(r.squared, nobs))
-  
-}
-
 summary_object <- summary(regression)
 
 summary_object[["coefficients"]] |>
@@ -154,11 +142,23 @@ regression_formula <- formula(x1txmtscor ~ x1sex + x1ses + x1paredu)
 
 regression_4 <- lm(regression_formula, data = data)
 
-matts_regression_table(regression_4)
+tbl_regression(regression_4,
+               label = list(x1sex ~ "Sex",
+                            x1ses ~ "Socio-Economic Status",
+                            x1paredu ~ "Parental Education")) |>
+  add_significance_stars(hide_ci = FALSE, hide_p = FALSE) |>
+  add_glance_source_note(include = c(r.squared, nobs)) |>
+  modify_column_unhide(std.error)
 
 regression_robust <- lm_robust(regression_formula, data = data, se_type = "stata")
 
-matts_regression_table(regression_robust)
+tbl_regression(regression_robust,
+               label = list(x1sex ~ "Sex",
+                            x1ses ~ "Socio-Economic Status",
+                            x1paredu ~ "Parental Education")) |>
+  add_significance_stars(hide_ci = FALSE, hide_p = FALSE) |>
+  add_glance_source_note(include = c(r.squared, nobs)) |>
+  modify_column_unhide(std.error)
 
 
 ## ---------------------------
@@ -173,9 +173,15 @@ for(i in outcomes) {
   
   loop_formula <- formula(paste0(i, "~ x1sex + x1ses + x1paredu"))
   
-  loop_lm <- lm(loop_formula, data = data)
+  loop_regression <- lm(loop_formula, data = data)
   
-  matts_regression_table(loop_lm) |>
+  tbl_regression(loop_regression,
+                 label = list(x1sex ~ "Sex",
+                              x1ses ~ "Socio-Economic Status",
+                              x1paredu ~ "Parental Education")) |>
+    add_significance_stars(hide_ci = FALSE, hide_p = FALSE) |>
+    add_glance_source_note(include = c(r.squared, nobs)) |>
+    modify_column_unhide(std.error) |>
     print()
   
 }
