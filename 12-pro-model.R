@@ -22,6 +22,7 @@ library(tidymodels)
 library(estimatr)
 library(stargazer)
 library(gtsummary)
+library(gt)
 library(knitr)
 
 
@@ -30,11 +31,11 @@ library(knitr)
 ## ---------------------------
 
 data <- read_csv("data/hsls-small.csv") |>
-      select(stu_id, x1sex, x1race, x1txmtscor, x1paredu, x1ses, x1poverty185, x1paredexpct)
+  select(stu_id, x1sex, x1race, x1txmtscor, x1paredu, x1ses, x1poverty185, x1paredexpct)
 
 data <- data |>
-      filter(! if_any(.cols = everything(),
-                      .fns = ~ . %in% c(-8, -9)))
+  filter(! if_any(.cols = everything(),
+                  .fns = ~ . %in% c(-8, -9)))
 
 data <- data |>
   mutate(across(.cols = c(stu_id, x1sex, x1race, x1paredu, x1poverty185),
@@ -62,7 +63,20 @@ tbl_regression(regression,
                             x1poverty185 ~ "Below Poverty Line",
                             x1paredu ~ "Parental Education")) |>
   add_significance_stars(hide_ci = FALSE, hide_p = FALSE) |>
-  add_glance_source_note(include = c(r.squared, nobs))
+  add_glance_source_note(include = c(r.squared, nobs)) |>
+  modify_column_unhide(std.error)
+
+matts_regression_table <- function(regression) {
+  
+  tbl_regression(regression,
+                 label = list(x1sex ~ "Sex",
+                              x1ses ~ "Socio-Economic Status",
+                              x1paredu ~ "Parental Education")) |>
+    modify_column_unhide(std.error) |>
+    add_significance_stars(hide_ci = FALSE, hide_p = FALSE) |>
+    add_glance_source_note(include = c(r.squared, nobs))
+  
+}
 
 summary_object <- summary(regression)
 
@@ -89,10 +103,21 @@ ggplot(data,
        aes(x = prediction,
            y = x1txmtscor)) +
   geom_point() +
-  geom_smooth(method = "lm") +
+  geom_abline(slope = 1, intercept = 0) +
   coord_obs_pred()
 
 
+regression_2 <- lm(x1txmtscor ~ x1sex + x1ses + x1paredu, data = data)
+
+data <- data |>
+  mutate(prediction_2 = predict(regression_2))
+
+ggplot(data,
+       aes(x = prediction_2,
+           y = x1txmtscor)) +
+  geom_point() +
+  geom_abline(slope = 1, intercept = 0) +
+  coord_obs_pred()
 
 
 data_outcome_unknown <- data |>
@@ -128,16 +153,17 @@ ggplot(data) +
 regression_formula <- formula(x1txmtscor ~ x1sex + x1ses + x1paredu)
 
 regression_4 <- lm(regression_formula, data = data)
-summary(regression_4)
+
+matts_regression_table(regression_4)
 
 regression_robust <- lm_robust(regression_formula, data = data, se_type = "stata")
-summary(regression_robust)
+
+matts_regression_table(regression_robust)
 
 
 ## ---------------------------
 ##' [Modelling with Loops]
 ## ---------------------------
-
 
 outcomes <- c("x1txmtscor", "x1paredexpct")
 
@@ -149,7 +175,8 @@ for(i in outcomes) {
   
   loop_lm <- lm(loop_formula, data = data)
   
-  print(summary(loop_lm))
+  matts_regression_table(loop_lm) |>
+    print()
   
 }
 
