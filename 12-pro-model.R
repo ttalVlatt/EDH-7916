@@ -7,9 +7,9 @@
 ##
 ## -----------------------------------------------------------------------------
 
+setwd(this.path::here())
 
-## setwd(this.path::here())
-## 
+
 ## install.packages(c("tidymodels", "estimatr", "stargazer", "gtsummary"))
 
 
@@ -53,7 +53,7 @@ t.test(x1txmtscor ~ x1sex, data = data)
 regression <- lm(x1txmtscor ~ x1sex + x1poverty185 + x1paredu, data = data)
 summary(regression)
 
-stargazer(regression, type = "html")
+stargazer(regression, type = "text")
 
 tbl_regression(regression)
 
