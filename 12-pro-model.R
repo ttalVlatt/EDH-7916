@@ -61,7 +61,7 @@ tbl_regression(regression,
                label = list(x1sex ~ "Sex",
                             x1poverty185 ~ "Below Poverty Line",
                             x1paredu ~ "Parental Education")) |>
-  add_significance_stars(hide_ci = FALSE) |>
+  add_significance_stars(hide_ci = FALSE, hide_p = FALSE) |>
   add_glance_source_note(include = c(r.squared, nobs))
 
 summary_object <- summary(regression)
