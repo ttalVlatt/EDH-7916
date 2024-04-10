@@ -53,7 +53,7 @@ t.test(x1txmtscor ~ x1sex, data = data)
 regression <- lm(x1txmtscor ~ x1sex + x1poverty185 + x1paredu, data = data)
 summary(regression)
 
-stargazer(regression, type = "text")
+stargazer(regression, type = "html")
 
 tbl_regression(regression)
 
