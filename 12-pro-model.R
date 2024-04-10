@@ -1,5 +1,3 @@
-## install.packages(c("tidymodels", "estimatr", "stargazer"))
-
 ## -----------------------------------------------------------------------------
 ##
 ##' [PROJ: EDH 7916]
@@ -9,7 +7,11 @@
 ##
 ## -----------------------------------------------------------------------------
 
-setwd(this.path::here())
+
+## setwd(this.path::here())
+## 
+## install.packages(c("tidymodels", "estimatr", "stargazer", "gtsummary"))
+
 
 ## ---------------------------
 ##' [Libraries]
@@ -19,6 +21,7 @@ library(tidyverse)
 library(tidymodels)
 library(estimatr)
 library(stargazer)
+library(gtsummary)
 library(knitr)
 
 
@@ -52,14 +55,24 @@ summary(regression)
 
 stargazer(regression, type = "text")
 
+tbl_regression(regression)
 
-summary(regression)[["coefficients"]] |>
+tbl_regression(regression,
+               label = list(x1sex ~ "Sex",
+                            x1poverty185 ~ "Below Poverty Line",
+                            x1paredu ~ "Parental Education")) |>
+  add_significance_stars(hide_ci = FALSE)
+
+summary_object <- summary(regression)
+
+summary_object[["coefficients"]] |>
   as.data.frame() |>
   mutate(sig = case_when(`Pr(>|t|)` < 0.001 ~ "***",
                          `Pr(>|t|)` < 0.01 ~ "**",
                          `Pr(>|t|)` < 0.05 ~ "*",
                          TRUE ~ "")) |>
-  kable(col.names = c("estimate", "s.e.", "t", "p", ""))
+  kable(col.names = c("estimate", "s.e.", "t", "p", ""),
+        digits = 3)
 
 
 ## ---------------------------
