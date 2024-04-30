@@ -27,6 +27,7 @@ data/*
 !/data/kmeans.RDS
 !/data/ipeds-finance
 !/data/ggplot2-challenge-data.csv
+site-attachments/quarto-batch-reports/*.pdf
 /.quarto/
 _solutions/
 /.luarc.json
