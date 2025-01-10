@@ -26,14 +26,9 @@ x <- 1
 ## what's in x?
 x
 
-##' @Matt needs to work on this  
-##' Matt needs to work on [this]
-##' Matt *needs* to work on this
-##' [Matt: needs to work on this]
-
 ## Try commenting/uncommenting the below line
 
-# Matt <- "Hi"
+# EDH7916 <- "Hi"
 
 typeof(x)
 

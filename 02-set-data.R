@@ -2,8 +2,8 @@
 ##
 ## <PROJ> EDH 7916
 ## <FILE> Getting Started II: Organizing and Reading Data 
-## <INIT> 04 January 2024
-## <AUTH> Matt Capaldi (modified from B.T. Skinner)
+## <INIT> 10 January 2025
+## <AUTH> 7916 Student (modified from Matt Capaldi and Ben Skinner)
 ##
 ################################################################################
 
