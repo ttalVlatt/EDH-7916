@@ -32,3 +32,4 @@ site-attachments/quarto-batch-reports/*.pdf
 _solutions/
 /.luarc.json
 .Rproj.user
+archive/
