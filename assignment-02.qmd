@@ -1,0 +1,91 @@
+---
+---
+
+Use the `hsls_small.csv` data set from the lesson answer the following questions
+
+- Throughout, you **should** account for missing values by dropping them
+
+> Hint: You're going to need the [code book](https://nces.ed.gov/datalab/onlinecodebook) to identify the necessary variables
+
+```{r}
+#| label: setup
+#| echo: false
+#| message: false
+
+library(tidyverse)
+```
+
+## Question One
+
+**a)** What is the average (mean) standardized math score?
+
+```{r}
+#| label: 1a
+
+
+```
+
+**b)** How does this differ by gender?
+
+```{r}
+#| label: 1b
+
+
+```
+
+## Question Two
+
+**a)** Among those students who are under 185% of the federal poverty line in the base year of the survey, what is the median household income category? (Include a description what that category represents)
+
+```{r}
+#| label: 2a
+
+
+```
+
+## Question Three
+
+**a)** Of the students who earned a high school credential (traditional diploma or GED), what percentage earned a GED or equivalency?
+
+```{r}
+#| label: 3a
+
+
+```
+
+**b)** How does this differ by region?
+
+```{r}
+#| label: 3b
+
+
+```
+
+## Question Four
+
+**a)** What percentage of students ever attended a post-secondary institution? (as of the data collection in february 2016)
+
+```{r}
+#| label: 4a
+
+
+```
+
+**b)** Give the cross tabulation for both family incomes above/below \$35,000 and region\
+
+- This means you should have percentages for 8 groups: above/below \$35,000 within each region 
+
+> Hint: `group_by()` can be given more than one group
+
+```{r}
+#| label: 4b
+
+
+```
+
+```{=html}
+<!--
+Once complete, turn in the .qmd file (must render successfully) to Canvas by Tuesday 12:00pm following the lesson.
+Assignments will be graded before next lesson on Wednesday in line with the grading policy outlined in the syllabus.
+-->
+```

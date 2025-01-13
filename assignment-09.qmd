@@ -1,0 +1,28 @@
+---
+---
+
+```{r}
+#| label: setup
+#| echo: false
+#| message: false
+
+library(tidyverse)
+```
+
+## Question One
+
+**a)** 
+
+```{r}
+#| label: 1a
+
+
+```
+
+
+```{=html}
+<!--
+Once complete, turn in the .qmd file (must render successfully) to Canvas by Tuesday 12:00pm following the lesson.
+Assignments will be graded before next lesson on Wednesday in line with the grading policy outlined in the syllabus.
+-->
+```

@@ -1,0 +1,63 @@
+---
+---
+
+Good news! By the time you have completed the quick exercises in this class, you should have some of this assignment done!
+
+```{r}
+#| label: setup
+#| echo: false
+#| message: false
+
+library(tidyverse)
+```
+
+## Question One (to be done in class)
+
+**a)** Write a few sentences describing your proposal for your reproducible report
+
+**b)** Add an appropriate section header (e.g. "Overview")
+
+**c)** Add **bold face** around your dependent variable
+
+**d)** Make your data source name *italic*
+
+**e)** Add an appropriate title and author name to the YAML header 
+
+## Question Two (to be done after class)
+
+**a)** Read in at least one data file you intend to use for your final project
+
+```{r}
+#| label: 2a
+
+
+```
+
+**b)** Write a few sentences describing where you got the data from
+
+**c)**  Add an appropriate header (e.g., "Data")
+
+**d)** Summarize one or more continuous variable including
+
+-   mean
+-   standard deviation
+-   minimum
+-   maximum
+
+**e)** Summarize one or more categorical variables including
+
+-   count for each category
+-   percentage of count for each category
+
+> Hint: Remember how to get percentages from assignment 2
+
+**f)** Save the file as `reproducible-report.qmd`
+
+Congratulations, you've officially started the Quarto document for your final project!
+
+```{=html}
+<!--
+Once complete, turn in the .qmd file (must render successfully) to Canvas by Tuesday 12:00pm following the lesson.
+Assignments will be graded before next lesson on Wednesday in line with the grading policy outlined in the syllabus.
+-->
+```

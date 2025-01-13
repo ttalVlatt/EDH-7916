@@ -1,0 +1,80 @@
+---
+---
+
+```{r}
+#| label: setup
+#| echo: false
+#| message: false
+
+library(tidyverse)
+```
+
+## Question One
+
+**a)** Using a `for()` loop, read in the school test files from `data/sch-test/by-school/`.
+
+```{r}
+#| label: 1a
+
+
+```
+
+
+**b)** Do the same, but, only for Bend Gate and Niagara
+
+```{r}
+#| label: 1b
+
+
+```
+
+> Hint: Looking inside the `list.files()` help file for somewhere you might use some regex
+
+**c)** Do it one more time, but include some code that add a column called `file_path` which contains the location where each row's information is coming from
+
+```{r}
+#| label: 1c
+
+
+```
+
+**d)** Bind the data sets from part **c)** together
+
+```{r}
+#| label: 1d
+
+
+```
+
+## Question Two
+
+**a)** Read in `hsls-small.dta`
+
+```{r}
+#| label: 2a
+
+
+```
+
+**b)** Write a function that
+
+1. Takes a `stu_id` as the input
+2. `paste()`s back a sentence which says `if()` they ever attended college `else()` whether their parent expected them to go to college
+  - If a student went to college it should return something like "this student went to college"
+  - If they didn't, it should return something like "this student did not go to college, their students did/did not expect them to"
+3. Optional: `if()` the student went to college, add a second sentence that says how many months they had between high school and going to college
+4. Super-Optional: Following from that, edit the second sentence to include how that student's delay compares to the average delay (you can pick, mean or median)
+
+```{r}
+#| label: 2b
+
+
+```
+
+
+```{=html}
+<!--
+Once complete, turn in the .qmd file (must render successfully) to Canvas by Tuesday 12:00pm following the lesson.
+Assignments will be graded before next lesson on Wednesday in line with the grading policy outlined in the syllabus.
+-->
+```

@@ -1,0 +1,127 @@
+---
+---
+
+Use the IPEDS data sets in your data folder, `hd2007.csv`and `ic2007mission.csv`, to answer the questions below.
+
+For each question, use R code to work out the answer and then explain it in 1-2 sentances.
+
+> Hint: You may need to look up and download the data dictionaries for each file, which you can find on [this page](https://nces.ed.gov/ipeds/datacenter/DataFiles.aspx)
+
+```{r}
+#| label: setup
+#| echo: false
+#| message: false
+
+library(tidyverse)
+```
+
+## Question One
+
+**a)** Join together the two datasets
+
+> Hint: Column names in `hd2007.csv` are uppercase (`UNITID`) while those in `ic2007mission.csv` are lowercase (`unitid`). There are multiple ways to handle this, but, `rename_all(tolower)` might be useful... 
+
+I also find these cheat sheets extremely helpful
+
+-   Cheat sheet for [stringr and regex](https://rstudio.github.io/cheatsheets/strings.pdf)
+-   Cheat sheet for [lubridate](https://rstudio.github.io/cheatsheets/lubridate.pdf)
+
+You can find all posit cheat sheets [here](https://rstudio.github.io/cheatsheets/)
+
+```{r}
+#| label: 1a
+
+
+```
+
+## Question Two
+
+**a)** How many chief administrator names start with "Dr."?
+
+> Hint: Many chief administrators are listed on more than one line due to branch campuses. Make sure to take this into account by keeping only distinct names.
+
+```{r}
+#| label: 2a
+
+
+```
+
+**b)** Optional: How many chief administrator names end with the title "Ph.D." or some variant?
+
+```{r}
+#| label: 2b
+
+
+```
+
+## Question Three
+
+Among schools that provide their mission statement
+
+**a)** How many repeat their institutional name in their mission statement?
+
+```{r}
+#| label: 3a
+
+
+```
+
+**b)** How many use the word _civic_?
+
+```{r}
+#| label: 3b
+
+
+```
+
+**c)** Which top 3 states have the most schools with mission statements that use the word *future*?
+
+```{r}
+#| label: 3c
+
+
+```
+
+**d)** Which type of schools (public, private-non-profit, private-for-profit) are most likely to use the word *skill* in their mission statement?
+
+```{r}
+#| label: 3d
+
+
+```
+
+## Question Four
+
+Among the schools that closed in 2007 or 2008 (and give a date with at least a month and year) 
+
+**a)** Which has been closed for the longest time? 
+
+```{r}
+#| label: 4a
+
+
+```
+
+**b)** How many months has it been from that school's close date to the beginning of this current month (1 February 2025)?
+
+```{r}
+#| label: 4b
+
+
+```
+
+**c)** How many days were there between the first school to close and the last?
+
+```{r}
+#| label: 4c
+
+
+```
+
+
+```{=html}
+<!--
+Once complete, turn in the .qmd file (must render successfully) to Canvas by Tuesday 12:00pm following the lesson.
+Assignments will be graded before next lesson on Wednesday in line with the grading policy outlined in the syllabus.
+-->
+```

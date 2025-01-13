@@ -1,0 +1,37 @@
+---
+---
+This week, your assignment is to use the `ggplot2-challenge-data.csv` (download from the class site) to recreate the challenge plot
+
+```{r}
+#| label: setup
+#| echo: false
+#| message: false
+
+library(tidyverse)
+```
+
+
+## Question One
+
+**a)** Recreate the challenge plot using the data provided on the assignment page of the class website 
+
+To successfully complete the assignment, write ggplot2 code that creates a plot that closely resembles the below plot
+ 
+-   For the full 5 points, the information portrayed needs to be identical with _reasonably_ similar aesthetics
+-   If you want to go the extra mile, there is a coveted [ggplot2 magnet](https://swag.posit.co/product/ggplot2-magnet/48?cp=true&sa=true&sbp=false&q=false) prize for the student who most closely copies the plot
+-   You're still welcome to work together, but, I only have a limited number of magnets...
+
+> Hint: the data is already cleaned, but, there are still a couple of data wrangling tasks you'll need to do before you can make the plot
+
+```{r}
+#| label: 1a
+
+
+```
+
+```{=html}
+<!--
+Once complete, turn in the .qmd file (must render successfully) to Canvas by Tuesday 12:00pm following the lesson.
+Assignments will be graded before next lesson on Wednesday in line with the grading policy outlined in the syllabus.
+-->
+```

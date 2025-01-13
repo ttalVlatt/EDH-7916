@@ -1,0 +1,130 @@
+---
+---
+
+Use the `hsls_small.csv` data set from the lesson answer the following questions
+
+- Throughout, you **should** account for missing values by dropping them
+
+> Hint: You're going to need the [code book](https://nces.ed.gov/datalab/onlinecodebook) to identify the necessary variables
+
+```{r}
+#| label: setup
+#| echo: false
+#| message: false
+
+library(tidyverse)
+```
+
+## Question One
+
+**a)** Compute the average test score by region
+
+```{r}
+#| label: 1a
+
+
+```
+
+**b)** Join back into the full data frame
+
+```{r}
+#| label: 1b
+
+
+```
+
+**c)** Compute the difference between each student's test score and that of the region
+
+```{r}
+#| label: 1c
+
+
+```
+
+**d)** Finally, show the mean of these differences by region
+
+> Hint: If you think about it, this should probably be a very very small number...
+
+```{r}
+#| label: 1d
+
+
+```
+
+**e)** Optional: Do all of the above steps in one piped chain of commands
+
+```{r}
+#| label: 1e
+
+
+```
+
+
+## Question Two
+
+**a)** Compute the average test score by region and family income level
+
+```{r}
+#| label: 2a
+
+
+```
+
+**b)** Join that average score back to the full data frame
+
+> Hint: You can join on more than one key using `c()`
+
+```{r}
+#| label: 2b
+
+
+```
+
+**c)** Optional: Do all of the above steps in one piped chain of commands
+
+```{r}
+#| label: 2c
+
+
+```
+
+## Question Three
+
+**a)** Select the following variables from the full data set
+
+- `stu_id`
+- `x1stuedexpct`
+- `x1paredexpct`
+- `x4evratndclg`  
+
+```{r}
+#| label: 3a
+
+
+```
+
+**b)** From this reduced data frame, reshape the data frame so that it is long in educational expectations
+
+- As in, each observation should have two rows, one for each educational expectation type
+
+*e.g. (your column names and values may be different)*
+
+| stu_id | expect_type  | expectation | x4evratndclg |
+|:------:|:------------:|:-----------:|:------------:|
+|  0001  | x1stuedexpct |      6      |      1       |
+|  0001  | x1paredexpct |      7      |      1       |
+|  0002  | x1stuedexpct |      5      |      1       |
+|  0002  | x1paredexpct |      5      |      1       |
+
+```{r}
+#| label: 3b
+
+
+```
+
+```{=html}
+<!--
+Once complete, turn in the .qmd file (must render successfully) to Canvas by Tuesday 12:00pm following the lesson.
+Assignments will be graded before next lesson on Wednesday in line with the grading policy outlined in the syllabus.
+-->
+```

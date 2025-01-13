@@ -1,0 +1,40 @@
+---
+---
+
+For this week's assignment, you have two options, make another map similar to the one we made in class, or, make a map you can use in your final project
+
+## Option One
+
+Using the `tidycensus` package and code from this lesson, make a different point map following the instructions below:
+
+1.  Modify the `tidycensus` code to download data for a different geography **and** a different variable
+2.  Make a new base map
+3.  Use the same academic libraries IPEDS data (or another IPEDS file if you want) to plot points on your new base map that change `aes()` based on a new variable
+
+```{r}
+#| label: option1
+
+
+```
+
+## Option Two
+
+Using data from your final project (plus `tidycensus` and/or `tigris` as needed) make a map following the guidance from the lesson. This will take a bit more time now, but, if it makes sense for your final project it might save you time later.
+    
+- Note: It still needs to be a `geom_sf()`
+
+> Hint: The main challenge will be working out how to either convert you data to spatial data or merge it with existing spatial data
+
+```{r}
+#| label: option2
+
+
+```
+
+
+```{=html}
+<!--
+Once complete, turn in the .qmd file (must render successfully) to Canvas by Tuesday 12:00pm following the lesson.
+Assignments will be graded before next lesson on Wednesday in line with the grading policy outlined in the syllabus.
+-->
+```

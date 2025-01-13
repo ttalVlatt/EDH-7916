@@ -1,0 +1,49 @@
+---
+---
+
+```{r}
+#| label: setup
+#| echo: false
+#| message: false
+
+library(tidyverse)
+```
+
+## Question One
+
+**a)** Create an Excel spreadsheet called `r-class-family.xlsx` with three columns; `name`, `degree_program`, and `years_at_uf`
+
+**b)** Add your information to it
+
+**c)** Optional: Add some of your classmates information (recall from class introductions, or, re-introduce yourself after class)
+
+**d)** Read this file into R and assign it to an object called `data` (just like we did in class)
+
+> Hint: You'll need to load a new package to read Excel files, between Google and asking your friends, you should be able to figure it out
+
+```{r}
+#| label: 1d
+
+```
+
+## Question Two
+
+**a)** Pick any single data file from IPEDS that peaks your interest from [IPEDS complete data files](https://nces.ed.gov/ipeds/datacenter/DataFiles.aspx)
+
+**b)** Download it and save it to your `data` subfolder in your class folder
+
+**c)** Read it into R and assign it to an object called `data_ipeds`
+
+```{r}
+#| label: 2c
+
+```
+
+```{=html}
+<!--
+Once complete, turn in the .qmd file (must render successfully) to Canvas by Tuesday 12:00pm following the lesson.
+Assignments will be graded before next lesson on Wednesday in line with the grading policy outlined in the syllabus.
+
+FYI: This is a special kind of code block (a raw html comment) which is a great way of adding notes to your file that won't show up in the final pdf such as notes to yourself, feedback from reviewers, questions/prompts, etc.. It's also how I will give your assignment feedback. You don't need to worry about using them for now, but you might find them useful later on for planning your final projects etc.
+-->
+```

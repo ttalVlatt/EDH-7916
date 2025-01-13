@@ -1,0 +1,59 @@
+---
+---
+
+Use the `hsls_small.dta` data set (the version used in this class) make plots that help answer each of the following questions
+
+- Throughout, you **should** account for missing values by dropping them
+- Do not worry about axis labels or other visual elements, that is covered next week
+
+> Hint: You're going to need the [code book](https://nces.ed.gov/datalab/onlinecodebook) to identify the necessary variables
+
+Also note, your final project proposals are due this week as well
+
+```{r}
+#| label: setup
+#| echo: false
+#| message: false
+
+library(tidyverse)
+```
+
+## Question One
+
+**a)** How does student socioeconomic status differ between students who ever attended college and those who did not?
+
+```{r}
+#| label: 1a
+
+
+```
+
+## Question Two
+
+**a)** How do educational expectations (of both students and parents) differ by high school completion status?
+
+> Hint: You will want to borrow some code from last week's assignment here
+
+```{r}
+#| label: 2a
+
+
+```
+
+## Question Three
+
+**a)** What is the relationship between student socioeconomic status and math test score?
+
+```{r}
+#| label: 3a
+
+
+```
+
+
+```{=html}
+<!--
+Once complete, turn in the .qmd file (must render successfully) to Canvas by Tuesday 12:00pm following the lesson.
+Assignments will be graded before next lesson on Wednesday in line with the grading policy outlined in the syllabus.
+-->
+```
