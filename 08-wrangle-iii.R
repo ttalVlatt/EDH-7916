@@ -1,25 +1,15 @@
 ## -----------------------------------------------------------------------------
 ##
 ##' [PROJ: EDH 7916]
-##' [FILE: 08-wrangle-iii.R]
+##' [FILE: Data Wrangling III: Strings and Dates]
 ##' [INIT: 18 March 2024]
 ##' [AUTH: Benjamin Skinner @btskinner]
 ##' [EDIT: Matt Capaldi @ttalVlatt]
 ##
 ## -----------------------------------------------------------------------------
 
-################################################################################
-##
-## <PROJ> EDH7916: Data Wrangling III: Working with strings and dates
-## <FILE> dw_three.R 
-## <INIT> 10 February 2020
-## <AUTH> Benjamin Skinner (GitHub/Twitter: @btskinner)
-##
-################################################################################
-
-
 ## ---------------------------
-## libraries
+##' [Libraries]
 ## ---------------------------
 
 ## NB: The stringr library is loaded with tidyverse, but
@@ -29,7 +19,7 @@ library(tidyverse)
 library(lubridate)
 
 ## ---------------------------
-## input
+##' [Input]
 ## ---------------------------
 
 ## read in data and lower all names using rename_all(tolower)
@@ -37,7 +27,7 @@ df <- read_csv(file.path("data", "hd2007.csv")) |>
     rename_all(tolower)
 
 ## -----------------------------------------------------------------------------
-## Working with strings
+##' [Working with strings]
 ## -----------------------------------------------------------------------------
 
 ## filter using state abbreviation (not saving, just viewing)

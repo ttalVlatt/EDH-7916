@@ -1,9 +1,10 @@
 ## -----------------------------------------------------------------------------
 ##
 ##' [PROJ: EDH 7916]
-##' [FILE: Tidyverse Tricks & SQL]
+##' [FILE: Data Wrangling IV: Advanced tidyverse & Data Retrieval]
 ##' [INIT: Jan 12th 2024]
 ##' [AUTH: Matt Capaldi] @ttalVlatt
+##' [UPTD: Jan 12th 2025]
 ##
 ## -----------------------------------------------------------------------------
 
@@ -19,7 +20,7 @@ library(RSQLite)
 
 
 ## ---------------------------
-##' [Tidyverse Tricks Data]
+##' [Read in Tidyverse Tricks Data]
 ## ---------------------------
 
 df_18_pub <- read_csv(file.path("data", "ipeds-finance", "f1819_f1a_rv.csv"))
@@ -125,6 +126,89 @@ df_18_clean |>
                                  serv_spend >= rsch_spend & rsch_spend >= inst_spend ~ "serv_rsch_inst",
                                  TRUE ~ "You missed a condition Matt")) |>
   count(highest_cat)
+
+## install.packages("tidycensus")
+## library(tidycensus)
+library(tidycensus)
+
+## census_api_key("<key>", install = T)
+
+data <- get_acs(geography = "tract",
+                state = "MN",
+                year = 2022,
+                survey = "acs5",
+                variables = c("DP02_0065PE", "DP03_0119PE"), # Pop >=25 with Bachelors, Pop below poverty line
+                output = "wide",
+                geometry = FALSE)
+
+ggplot(data) +
+  geom_point(aes(x = DP03_0119PE,
+                 y = DP02_0065PE))
+
+## install.packages("educationdata")
+## library(educationdata)
+library(educationdata)
+
+## data_info <- get_education_data(level = "college-university",
+##                            source = "ipeds",
+##                            topic = "directory",
+##                            filters = list(year = 2021),
+##                            add_labels = TRUE)
+## 
+## data_aid <- get_education_data(level = "college-university",
+##                            source = "ipeds",
+##                            topic = "sfa-by-tuition-type",
+##                            filters = list(year = 2021),
+##                            add_labels = TRUE)
+
+load("data/ui-ed-data.Rdata")
+
+nrow(data_info)
+nrow(data_aid)
+
+data_aid <- data_aid |>
+  filter(tuition_type == "Out of state")
+
+nrow(data_aid)
+
+## install.packages("EdSurvey")
+## library(EdSurvey)
+library(EdSurvey)
+
+## downloadHSLS(".")
+
+## hsls <- readHSLS("HSLS/2009")
+
+## data_hsls <- getData(hsls,
+##                      varnames = c("x4evratndclg", "x1paredexpct"))
+load("data/ed-survey.Rds")
+
+data_hsls_plot <- data_hsls |>
+  group_by(x4evratndclg) |>
+  count(x1stuedexpct) |>
+  mutate(sum = sum(n),
+         perc = n/sum*100) |>
+  select(x4evratndclg, x1stuedexpct, perc)
+
+ggplot(data_hsls_plot) +
+  geom_col(aes(y = perc, x = x1stuedexpct, fill = x4evratndclg),
+           position = "dodge") +
+  scale_fill_manual(values = c("pink2", "navy")) +
+  theme_minimal() +
+  theme(axis.text.x = element_text(angle = 90, size = 6)) +
+  labs(x = "Student Educational Expectations in Wave 1",
+       y = "% of Students Respondants",
+       fill = str_wrap("Did the Student Ever Attend College by Wave 4", 30))
+
+download.file(url = "https://www.kaggle.com/api/v1/datasets/download/ben1989/target-store-dataset",
+              destfile = "data/target-data.zip")
+
+unzip("data/target-data.zip", exdir = "data/")
+
+data_target <- read_csv("data/targets.csv")
+
+data_target |>
+  count(SubTypeDescription)
 
 ## ---------------------------
 ##' [Data Wrangling II in SQL]

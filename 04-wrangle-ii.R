@@ -1,35 +1,29 @@
-################################################################################
+## -----------------------------------------------------------------------------
 ##
-## <PROJ> EDH7916: Data wrangling II: Appending, joining, and reshaping data
-## <FILE> dw_two.R 
-## <INIT> 31 January 2020
-## <AUTH> Benjamin Skinner (GitHub/Twitter: @btskinner)
+##' [PROJ: EDH 7916]
+##' [FILE: Data wrangling II: Appending, joining, and reshaping data]
+##' [INIT: 31 January 2020]
+##' [AUTH: Benjamin Skinner @btskinner]
+##' [EDIT: Matt Capaldi @ttalVlatt]
+##' [UPDT: 12 January 2025]
 ##
-################################################################################
+## -----------------------------------------------------------------------------
 
 
 ## ---------------------------
-## libraries
+##' [Libraries]
 ## ---------------------------
 
 library(tidyverse)
 
 ## -----------------------------------------------------------------------------
-## Append data
+##' [Append data]
 ## -----------------------------------------------------------------------------
-
-## ---------------------------
-## input
-## ---------------------------
 
 ## read in data, storing in df_*, where * is a unique number
 df_1 <- read_csv(file.path("data", "sch-test", "by-school", "bend-gate-1980.csv"))
 df_2 <- read_csv(file.path("data", "sch-test", "by-school", "bend-gate-1981.csv"))
 df_3 <- read_csv(file.path("data", "sch-test", "by-school", "bend-gate-1982.csv"))
-
-## ---------------------------
-## process
-## ---------------------------
 
 ## show each
 df_1
@@ -53,22 +47,14 @@ print(df_split_right)
 
 
 ## -----------------------------------------------------------------------------
-## Join data
+##' [Join data]
 ## -----------------------------------------------------------------------------
-
-## ---------------------------
-## input
-## ---------------------------
 
 ## read in all_schools data
 df <- read_csv(file.path("data", "sch-test", "all-schools.csv"))
 
 ## show
 df
-
-## ---------------------------
-## process
-## ---------------------------
 
 ## get test score summary 
 df_sum <- df |>
@@ -118,19 +104,11 @@ df_join <- df |>
 
 
 ## -----------------------------------------------------------------------------
-## Reshape data
+##' [Reshape data]
 ## -----------------------------------------------------------------------------
-
-## ---------------------------
-## input
-## ---------------------------
 
 ## reading again just to be sure we have the original data
 df <- read_csv(file.path("data", "sch-test", "all-schools.csv"))
-
-## ---------------------------
-## process
-## ---------------------------
 
 ## wide to long
 df_long <- df |>
@@ -144,10 +122,6 @@ df_long <- df |>
 ## show
 df_long
 
-## ---------------------------
-## process
-## ---------------------------
-
 ## long to wide
 df_wide <- df_long |>
     ## names_from: values in this column will become new column names
@@ -158,19 +132,11 @@ df_wide <- df_long |>
 ## show
 df_wide
 
-## ---------------------------
-## input
-## ---------------------------
-
 ## read in very wide test score data
 df <- read_csv(file.path("data", "sch-test", "all-schools-wide.csv"))
 
 ## show
 df
-
-## ---------------------------
-## process
-## ---------------------------
 
 ## wide to long
 df_long <- df |>
@@ -183,10 +149,6 @@ df_long <- df |>
 ## show
 df_long
 
-## ---------------------------
-## process
-## ---------------------------
-
 ## wide to long
 df_wide <- df_long |>
     pivot_wider(values_from = score,
@@ -197,10 +159,8 @@ df_wide <- df_long |>
 df_wide
 
 ## -----------------------------------------------------------------------------
-## end script
+##' *END SCRIPT*
 ## -----------------------------------------------------------------------------
-
-## NA
 
 data_info <- read_csv("data/hd2022.csv")
 data_enroll <- read_csv("data/effy2022.csv")
@@ -258,3 +218,10 @@ data_joined |>
   group_by(CONTROL) |>
   drop_na() |>
   summarize(mean = mean(perc_intl_diff))
+
+
+## -----------------------------------------------------------------------------
+##' *END SCRIPT*
+## -----------------------------------------------------------------------------
+
+## NA

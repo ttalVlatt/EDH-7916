@@ -1,7 +1,7 @@
 ## -----------------------------------------------------------------------------
 ##
-##' [PROJ: EDH7916: Data visualization with ggplot2]
-##' [FILE: 06-viz-ii.R]
+##' [PROJ: EDH 7916]
+##' [FILE: Data visualization with ggplot2 - Customization]
 ##' [INIT: 9 March 2020]
 ##' [AUTH: Benjamin Skinner @btskinner]
 ##' [EDIT: Matt Capaldi @ttalVlatt]
@@ -51,10 +51,6 @@ p <- p +
 ## show 
 p
 
-## ---------------------------
-## titles and captions: ver 2
-## ---------------------------
-
 ## create histogram using ggplot
 p <- p +
   labs(title = "Math test scores",
@@ -80,10 +76,6 @@ p <- p +
 
 ## show 
 p
-
-## ---------------------------
-## axis formatting: ver 2
-## ---------------------------
 
 p <- p +
     scale_y_continuous(breaks = seq(from = 0, to = 2500, by = 500),
@@ -187,10 +179,6 @@ p3 <- ggplot(df) +
 
 ## show
 p3
-
-## ---------------------------
-## patchwork: side by side
-## ---------------------------
 
 ## use plus sign for side by side
 p2 + p3

@@ -1,7 +1,7 @@
 ## -----------------------------------------------------------------------------
 ##
-##' [PROJ: EDH7916: Data visualization with ggplot2]
-##' [FILE: 05-viz-i.R]
+##' [PROJ: EDH 7916]
+##' [FILE: Data visualization with ggplot2 - Basics]
 ##' [INIT: 9 March 2020]
 ##' [AUTH: Benjamin Skinner @btskinner]
 ##' [EDIT: Matt Capaldi @ttalVlatt]
@@ -11,13 +11,13 @@
 
 
 ## ---------------------------
-## libraries
+##' [Libraries]
 ## ---------------------------
 
 library(tidyverse)
 
 ## ---------------------------
-## input data\
+##' [Input data]
 ## ---------------------------
 
 ## read_dta() ==> read in Stata (*.dta) files
@@ -26,45 +26,35 @@ df_hs <- haven::read_dta(file.path("data", "hsls-small.dta"))
 df_ts <- read_csv(file.path("data", "sch-test", "all-schools.csv"))
 
 ## -----------------------------------------------------------------------------
-## Base R graphics
+##' [Base R graphics]
 ## -----------------------------------------------------------------------------
 
-## ---------------------------
-## histogram
-## ---------------------------
+##' [Histogram]
 
 ## histogram of math scores (which should be normal by design)
 hist(df_hs$x1txmtscor)
 
-## ---------------------------
-## density
-## ---------------------------
+##' [Density]
 
 ## density plot of math scores
 density(df_hs$x1txmtscor, na.rm = TRUE) |>
   plot()
 
-## ---------------------------
-## box plot
-## ---------------------------
+##' [Box Plot]
 
 ## box plot of math scores against student expectations
 boxplot(x1txmtscor ~ x1stuedexpct, data = df_hs)
 
-## ---------------------------
-## scatter
-## ---------------------------
+##' [Scatter]
 
 ## scatter plot of math against SES
 plot(df_hs$x1ses, df_hs$x1txmtscor)
 
 ## -----------------------------------------------------------------------------
-## Graphics with ggplot2
+##' [Graphics with ggplot2]
 ## -----------------------------------------------------------------------------
 
-## ---------------------------
-## histogram
-## ---------------------------
+##' [Histogram]
 
 ## init ggplot 
 ggplot(data = df_hs)
@@ -73,9 +63,7 @@ ggplot(data = df_hs)
 ggplot(data = df_hs) +
   geom_histogram(mapping = aes(x = x1txmtscor))
 
-## ---------------------------
-## density
-## ---------------------------
+##' [Density]
 
 ## density
 ggplot(data = df_hs) +
@@ -100,9 +88,7 @@ ggplot(data = df_hs) +
                alpha = 0.2)
 
 
-## ---------------------------
-## two way plot
-## ---------------------------
+##' [Two-Way]
 
 ## see the counts for each group
 df_hs |> count(x1paredu)
@@ -136,9 +122,7 @@ ggplot(plot_df) +
                alpha = 0.5,
                color = "black")
 
-## ---------------------------
-## box plot
-## ---------------------------
+##' [Box Plot]
 
 ## box plot using both factor() and as_factor()
 ggplot(data = df_hs,
@@ -147,9 +131,7 @@ ggplot(data = df_hs,
                      fill = factor(x1paredu))) +
   geom_boxplot()
 
-## ---------------------------
-## scatter plot
-## ---------------------------
+##' [Scatter]
 
 ## sample 10% to make figure clearer
 df_hs_10 <- df_hs |>
@@ -181,9 +163,7 @@ ggplot(data = df_hs_10,
   geom_point(mapping = aes(color = plan_col_grad), alpha = 0.5)
 
 
-## ---------------------------
-## fitted lines
-## ---------------------------
+##' [Fitted Lines]
 
 ## add fitted line with linear fit
 ggplot(data = df_hs_10, mapping = aes(x = x1ses, y = x1txmtscor)) +
@@ -195,9 +175,7 @@ ggplot(data = df_hs_10, mapping = aes(x = x1ses, y = x1txmtscor)) +
   geom_point(mapping = aes(color = factor(plan_col_grad)), alpha = 0.5) +
   geom_smooth(method = loess, color = "black")
 
-## ---------------------------
-## line graph
-## ---------------------------
+##' [Line Graph]
 
 ## show test score data
 df_ts
@@ -248,8 +226,8 @@ ggplot(data = df_ts_long_std) +
   facet_wrap(~school)
 
 
-## =============================================================================
-## END SCRIPT
-################################################################################
+## -----------------------------------------------------------------------------
+##' *END SCRIPT*
+## -----------------------------------------------------------------------------
 
 ## NA

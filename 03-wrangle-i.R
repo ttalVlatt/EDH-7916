@@ -1,29 +1,29 @@
-################################################################################
+## -----------------------------------------------------------------------------
 ##
-## <PROJ> EDH7916: Data Wrangling I: Enter the {tidyverse}
-## <FILE> dw_one.R 
-## <INIT> 20 January 2020
-## <AUTH> Benjamin Skinner (GitHub/Twitter: @btskinner)
-## <MODI> Matt Capaldi on 12 Jan 2024
+##' [PROJ: EDH 7916]
+##' [FILE: Data Wrangling I: Enter the tidyverse]
+##' [INIT: 20 January 2020]
+##' [AUTH: Benjamin Skinner @btskinner]
+##' [EDIT: Matt Capaldi @ttalVlatt]
+##' [UPDT: 12 January 2025]
 ##
-################################################################################
-
+## -----------------------------------------------------------------------------
 
 ## ---------------------------
-## libraries
+##' [Libraries]
 ## ---------------------------
 
 library(tidyverse)
 
 ## ---------------------------
-## Read in Data
+##' [Read in Data]
 ## ---------------------------
 
 ## data are CSV, so we use read_csv() from the readr library
 df <- read_csv(file.path("data", "hsls-small.csv"))
 
 ## ---------------------------
-## The Pipe |> Operator
+##' [The Pipe |> Operator]
 ## ---------------------------
 
 ## Without |>
@@ -74,7 +74,7 @@ df |>
 all.equal(df_backward_pass, df_forward_pass)
 
 ## ---------------------------
-## Select Variables
+##' [Select Variables]
 ## ---------------------------
 
 df |> select(stu_id, x1stuedexpct, x1paredexpct, x1region)
@@ -82,7 +82,7 @@ df |> select(stu_id, x1stuedexpct, x1paredexpct, x1region)
 df_small <- df |> select(stu_id, x1stuedexpct, x1paredexpct, x1region)
 
 ## ---------------------------
-## Count Categorical Variables
+##' [Count Categorical Variables]
 ## ---------------------------
 
 ## see unique values for student expectation
@@ -92,8 +92,7 @@ df_small |> count(x1stuedexpct)
 df_small |> count(x1paredexpct)
 
 ## ---------------------------
-## Modify an Existing Variable with Mutate
-## Conditional ifelse Statements
+##' [Modify an Existing Variable with mutate & ifelse]
 ## ---------------------------
 
 df_small <- df_small |>
@@ -102,7 +101,7 @@ df_small <- df_small |>
 print(df_small, n = 26)
 
 ## ---------------------------
-## Being Efficient with %in% and c()
+##' [Being Efficient with %in% and c()]
 ## ---------------------------
 
 df_small <- df_small |>
@@ -115,7 +114,7 @@ df_small |> count(x1stuedexpct)
 df_small |> count(x1paredexpct)
 
 ## ---------------------------
-## Create New Variable with Mutate
+##' [Create New Variable with mutate]
 ## ---------------------------
 
 df_small <- df_small |>
@@ -128,7 +127,7 @@ mean(c(5, 6, 4, NA))
 mean(c(5, 6, 4, NA), na.rm = T)
 
 ## ---------------------------
-## Handling NA Values
+##' [Handling NA Values]
 ## ---------------------------
 
 df_small <- df_small |>
@@ -136,10 +135,6 @@ df_small <- df_small |>
          high_exp = ifelse(is.na(high_exp) & !is.na(x1paredexpct), x1paredexpct, high_exp))
 
 print(df_small, n = 26)
-
-## ---------------------------
-## Filter NA Rows
-## ---------------------------
 
 ## get summary of our new variable
 df_small |> count(high_exp)
@@ -153,7 +148,7 @@ df_small_cut |> count(high_exp)
 nrow(df_small) - nrow(df_small_cut)
 
 ## ---------------------------
-## Summarizing Data
+##' [Summarizing Data]
 ## ---------------------------
 
 ## get average (without storing)
@@ -162,7 +157,7 @@ df_small_cut |> summarize(mean(high_exp))
 df_small_cut |> summarize(mean_exp = mean(high_exp))
 
 ## ---------------------------
-## Grouping Data
+##' [Grouping Data]
 ## ---------------------------
 
 ## get grouped average
@@ -171,7 +166,7 @@ df_small_cut |>
   summarize(mean_exp = mean(high_exp))
 
 ## ---------------------------
-## Saving Data
+##' [Saving Data]
 ## ---------------------------
 
 ## write with useful name
@@ -183,7 +178,7 @@ df_small_cut |>
 
 
 ## ---------------------------
-## Appendix: All in One!
+##' [Appendix: All in One!]
 ## ---------------------------
 
 ## Let's redo the analysis above, but with a fully chained set of
@@ -218,8 +213,9 @@ chain <- read_csv(file.path("data", "region-expects-chain.csv"))
 all.equal(non_chain, chain)
       
 
+
 ## -----------------------------------------------------------------------------
-## End Script
+##' *END SCRIPT*
 ## -----------------------------------------------------------------------------
 
 ## NA

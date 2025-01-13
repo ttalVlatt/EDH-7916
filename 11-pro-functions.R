@@ -1,7 +1,7 @@
 ## -----------------------------------------------------------------------------
 ##
 ##' [PROJ: EDH 7916]
-##' [FILE: 11-pro-functions.R]
+##' [FILE: Functions & Loops]
 ##' [INIT: 5 March 2024]
 ##' [AUTH: Benjamin Skinner @btskinner]
 ##' [EDIT: Matt Capaldi @ttalVlatt]
