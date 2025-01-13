@@ -5,6 +5,7 @@
 ##' [INIT: 20 January 2020]
 ##' [AUTH: Benjamin Skinner @btskinner]
 ##' [EDIT: Matt Capaldi @ttalVlatt]
+##' [EDIT: Jue Wu]
 ##' [UPDT: 12 January 2025]
 ##
 ## -----------------------------------------------------------------------------
@@ -20,10 +21,10 @@ library(tidyverse)
 ## ---------------------------
 
 ## data are CSV, so we use read_csv() from the readr library
-df <- read_csv(file.path("data", "hsls-small.csv"))
+df <- read_csv("data/hsls-small.csv")
 
 ## ---------------------------
-##' [The Pipe |> Operator]
+##' [The Native Pipe |> Operator]
 ## ---------------------------
 
 ## Without |>

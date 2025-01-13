@@ -5,6 +5,7 @@
 ##' [INIT: 9 March 2020]
 ##' [AUTH: Benjamin Skinner @btskinner]
 ##' [EDIT: Matt Capaldi @ttalVlatt]
+##' [EDIT: Jue Wu]
 ##
 ## -----------------------------------------------------------------------------
 
