@@ -12,7 +12,8 @@
 
 library(tidyverse)
 
-df_ipeds <- read_csv(file.path("data", "hd2007.csv"))
+# read_csv() reads in csv files
+data_ipeds <- read_csv("data/hd2007.csv")
 
 
 
