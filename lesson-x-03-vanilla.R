@@ -1,14 +1,14 @@
-################################################################################
+## -----------------------------------------------------------------------------
 ##
-## <PROJ> EDH7916: Data wrangling with base R
-## <FILE> dw_one_base_r.R 
-## <INIT> 20 January 2020
-## <AUTH> Benjamin Skinner (GitHub/Twitter: @btskinner)
+##' [PROJ: EDH 7916]
+##' [FILE: Extra Credit: Vanilla R]
+##' [INIT: 18 July 2020]
+##' [AUTH: Benjamin Skinner @btskinner]
 ##
-################################################################################
+## -----------------------------------------------------------------------------
 
 ## ---------------------------
-## libraries
+##' [Libraries]
 ## ---------------------------
 
 ## NONE
@@ -18,7 +18,7 @@
 setwd(this.path::here())
 
 ## ---------------------------
-## input
+##' [Input]
 ## ---------------------------
 
 ## data are CSV, so we use read.csv(), which is base R function
@@ -28,7 +28,7 @@ df <- read.csv(file.path("data", "hsls-small.csv"))
 head(df, n = 10)
 
 ## ---------------------------
-## process
+##' [Process]
 ## ---------------------------
 
 ## show value at row 1, col 4
@@ -51,7 +51,7 @@ df_tmp <- df[, c("stu_id", "x1stuedexpct", "x1paredexpct", "x1region")]
 head(df_tmp, n = 10)
 
 ## -----------------
-## mutate
+##' [mutate]
 ## -----------------
 
 ## see unique values for student expectation
@@ -114,7 +114,7 @@ df_tmp$high_expct[is.na(df_tmp$high_expct)] <- ifelse(
 head(df_tmp, n = 10)
 
 ## -----------------
-## filter
+##' [filter]
 ## -----------------
 
 ## get summary of our new variable
@@ -130,7 +130,7 @@ head(df_tmp, n = 10)
 nrow(df) - nrow(df_tmp)
 
 ## -----------------
-## summarize
+##' [summarize]
 ## -----------------
 
 ## get average (without storing)
@@ -148,14 +148,14 @@ df_tmp <- aggregate(df_tmp["high_expct"],                # var of interest
 df_tmp
 
 ## ---------------------------
-## output
+##' [output]
 ## ---------------------------
 
 ## write with useful name
 write.csv(df_tmp, file.path("data", "high_expct_mean_region.csv"))
 
 ## -----------------------------------------------------------------------------
-## end script
+##' *END SCRIPT*
 ## -----------------------------------------------------------------------------
 
 ## NA
