@@ -14,11 +14,17 @@ library(tidyverse)
 ## Question One (copy over from class)
 
 **a)** Add a level-one heading "Data"
+
 **b)** Write a sentance or two about the data you're using for you final project
+
 **c)** Make the source of your data (e.g., IPEDS) _italic_
+
 **d)** Change the header title to something appropriate for your final report
+
 **e)** Change the header author to your name
+
 **f)** Change the header date so that it uses the current date whenever it is rendered
+
 **g)** Set the output format to create a pdf (either `pdf` or `typst`)
 
 
