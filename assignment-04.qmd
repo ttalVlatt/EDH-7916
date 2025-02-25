@@ -1,7 +1,7 @@
 ---
 ---
 
-Use the `hsls_small.dta` data set (the version used in this class) make plots that help answer each of the following questions
+Use the `hsls-small.dta` data set (the version used in this class) make plots that help answer each of the following questions
 
 - Throughout, you **should** account for missing values by dropping them
 - Do not worry about axis labels or other visual elements, that is covered next week

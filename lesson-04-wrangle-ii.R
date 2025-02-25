@@ -93,7 +93,7 @@ data |>
   left_join(data_sum,
             by = "year")
 
-## Note: if we want to keep the joined data, we should assign it to df_join
+## Note: if we want to keep the joined data, we should assign it to data_join
 data_join <- data |>
   left_join(data_sum,
             by = "year")
@@ -161,34 +161,37 @@ data_wide
 ##' *END SCRIPT*
 ## -----------------------------------------------------------------------------
 
-data_info <- read_csv("data/hd2022.csv")
-data_enroll <- read_csv("data/effy2022.csv")
+data_info <- read_csv("data/hd2022.csv") |> 
+  rename_all(tolower) # convert all column names to lowercase
+
+data_enroll <- read_csv("data/effy2022.csv") |> 
+  rename_all(tolower)
 
 data_info
 
 data_enroll
 
 data_enroll <- data_enroll |>
-  select(UNITID, EFFYLEV, EFYTOTLT, EFYNRALT)
+  select(unitid, effylev, efytotlt, efynralt)
 
 data_enroll
 
 
 data_enroll <- data_enroll |>
-  filter(EFFYLEV %in% c(2,4))
+  filter(effylev %in% c(2,4))
   
 data_enroll
 
 
 
 data_enroll <- data_enroll |>
-  mutate(perc_intl = EFYNRALT/EFYTOTLT*100) |>
-  select(-EFYTOTLT, -EFYNRALT) # - in select means drop this variable
+  mutate(perc_intl = efynralt/efytotlt*100) |>
+  select(-efytotlt, -efynralt) # - in select means drop this variable
 
 data_enroll
 
 data_enroll <- data_enroll |>
-  pivot_wider(names_from = EFFYLEV,
+  pivot_wider(names_from = effylev,
               values_from = perc_intl,
               names_prefix = "perc_intl_")
 
@@ -207,14 +210,14 @@ data_enroll |>
             
 
 data_info <- data_info |>
-  select(UNITID, CONTROL)
+  select(unitid, control)
 
-data_joined <- left_join(data_enroll, data_info, by = "UNITID")
+data_joined <- left_join(data_enroll, data_info, by = "unitid")
 
 data_joined
 
 data_joined |>
-  group_by(CONTROL) |>
+  group_by(control) |>
   drop_na() |>
   summarize(mean = mean(perc_intl_diff))
 

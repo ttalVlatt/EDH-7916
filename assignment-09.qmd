@@ -1,6 +1,12 @@
 ---
 ---
 
+Use the `hsls_small.csv` data set from the lesson answer the following questions
+
+- Throughout, you **should** account for missing values by dropping them
+
+> Hint: You're going to need the [code book](https://nces.ed.gov/datalab/onlinecodebook) to identify the necessary variables
+
 ```{r}
 #| label: setup
 #| echo: false
@@ -11,7 +17,7 @@ library(tidyverse)
 
 ## Question One
 
-**a)** 
+**a)** Conduct an independent samples t-test to compare math scores between students below 185% of the federal poverty line and those above it. Is there a statistically significant difference?
 
 ```{r}
 #| label: 1a
@@ -19,10 +25,38 @@ library(tidyverse)
 
 ```
 
+**b)** Make a plot to visualize the difference.
+
+```{r}
+#| label: 1b
+
+
+```
+
+## Question Two
+
+**a)** Fit a logistic regression predicting postsecondary attendance using math score, sex, family income, and parental education
+
+> Hint: You might want to Google to find out what function you need for fitting a logistic regression. 
+
+```{r}
+#| label: 2a
+
+
+```
+
+**b)** Create a nicely formatted output table using `stargazer` or `gtsummary` for the model from 2a.
+
+```{r}
+#| label: 2b
+
+
+```
+
 
 ```{=html}
 <!--
-Once complete, turn in the .qmd file (must render successfully) to Canvas by Tuesday 12:00pm following the lesson.
+Once complete, turn in the .qmd file (must render successfully) and the rendered PDF to Canvas by Tuesday 12:00pm following the lesson.
 Assignments will be graded before next lesson on Wednesday in line with the grading policy outlined in the syllabus.
 -->
 ```

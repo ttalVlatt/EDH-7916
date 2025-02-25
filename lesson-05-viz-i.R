@@ -117,7 +117,7 @@ ggplot(plot_data) +
                  alpha = 0.5,
                  color = "black")
 
-## two way histogram
+## two way density
 ggplot(plot_data) +
   geom_density(aes(x = x1txmtscor,
                    fill = pared_coll),
@@ -189,7 +189,7 @@ ggplot(data = data_ts |> filter(school == "Spottsville"),
 
 ## line graph for math scores at every school over time
 ggplot(data = data_ts,
-       mapping = aes(x = year, y = math, colour = school)) +
+       mapping = aes(x = year, y = math, color = school)) +
   geom_line()
 
 ## facet line graph
@@ -209,7 +209,7 @@ data_ts_long
 
 ## facet line graph, with colour = test and ~school
 ggplot(data = data_ts_long) +
-  geom_line(mapping = aes(x = year, y = score, colour = test)) +
+  geom_line(mapping = aes(x = year, y = score, color = test)) +
   facet_wrap(~school)
 
 data_ts_long_std <- data_ts_long |>
@@ -224,7 +224,7 @@ print(data_ts_long_std, n = 13)
 
 ## facet line graph, with colour = test and ~school
 ggplot(data = data_ts_long_std) +
-  geom_line(mapping = aes(x = year, y = score_std_sch, colour = test)) +
+  geom_line(mapping = aes(x = year, y = score_std_sch, color = test)) +
   facet_wrap(~school)
 
 

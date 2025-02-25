@@ -5,6 +5,8 @@
 ##' [INIT: 18 March 2024]
 ##' [AUTH: Benjamin Skinner @btskinner]
 ##' [EDIT: Matt Capaldi @ttalVlatt]
+##' [EDIT: Jue Wu]
+##' [UPDT: 12 February 2025]
 ##
 ## -----------------------------------------------------------------------------
 
@@ -23,7 +25,7 @@ library(lubridate)
 ## ---------------------------
 
 ## read in data and lower all names using rename_all(tolower)
-df <- read_csv(file.path("data", "hd2007.csv")) |>
+data <- read_csv("data/hd2007.csv") |>
     rename_all(tolower)
 
 ## -----------------------------------------------------------------------------
@@ -31,15 +33,15 @@ df <- read_csv(file.path("data", "hd2007.csv")) |>
 ## -----------------------------------------------------------------------------
 
 ## filter using state abbreviation (not saving, just viewing)
-df |>
+data |>
     filter(stabbr == "FL")
 
 ## see first few rows of distinct chief titles
-df |>
+data |>
     distinct(chftitle)
 
 ## return the most common titles
-df |>
+data |>
     ## get counts of each type
     count(chftitle) |>
     ## arrange in descending order so we see most popular at top
@@ -52,7 +54,7 @@ fruits <- c("green apple", "banana", "red apple")
 str_detect(fruits, "apple")
 
 ## how many use some form of the title president?
-df |>
+data |>
     ## still starting with our count
     count(chftitle) |>
     ## ...but keeping only those titles that contain "President"
@@ -61,44 +63,44 @@ df |>
     arrange(desc(n))
 
 ## solution 1: look for either P or p
-df |>
+data |>
     count(chftitle) |>
     filter(str_detect(chftitle, "[Pp]resident")) |>
     arrange(desc(n))
 
 
 ## solution 2: make everything lowercase so that case doesn't matter
-df |>
+data |>
     count(chftitle) |>
     filter(str_detect(str_to_lower(chftitle), "president")) |>
     arrange(desc(n))
 
 
 ## show first few zip code values
-df |>
+data |>
     select(unitid, zip)
 
 ## pull out first 5 digits of zip code
-df <- df |>
+data <- data |>
     mutate(zip5 = str_sub(zip, start = 1, end = 5))
 
-## show (use select() to subset so we can set new columns)
-df |>
+## show (use select() to subset so we can see new columns)
+data |>
     select(unitid, zip, zip5)
 
 ## drop last four digits of extended zip code if they exist
-df <- df |>
+data <- data |>
     mutate(zip5_v2 = str_replace(zip, "([0-9]+)(-[0-9]+)?", "\\1"))
 
-## show (use select() to subset so we can set new columns)
-df |>
+## show (use select() to subset so we can see new columns)
+data |>
     select(unitid, zip, zip5, zip5_v2)
 
 ## check if both versions of new zip column are equal
-identical(df |> select(zip5), df |> select(zip5_v2))
+identical(data |> select(zip5), data |> select(zip5_v2))
 
 ## filter to rows where zip5 != zip5_v2 (not storing...just looking)
-df |>
+data |>
     filter(zip5 != zip5_v2) |>
     select(unitid, zip, zip5, zip5_v2)
 
@@ -108,54 +110,54 @@ df |>
 ## -----------------------------------------------------------------------------
 
 ## subset to schools who closed during this period
-df <- df |>
+data <- data |>
   filter(closedat != -2) |>
   select(unitid, instnm, closedat)
 
-df
+data
 
 
 ## create a new clean_date column 
-df <- df |>
+data <- data |>
     mutate(clean_date = parse_date_time(closedat,
                                         orders = "mdy"))
 
 ## show
-df
+data
 
 ## Try adding another date format
-df <- df |>
+data <- data |>
     mutate(clean_date = parse_date_time(closedat,
                                         orders = c("mdy", "my")))
 
 ## show
-df
+data
 
-df |>
+data |>
   filter(is.na(clean_date))
 
-df <- df |>
+data <- data |>
   drop_na(clean_date)
 
-df |> filter(clean_date == min(clean_date))
+data |> filter(clean_date == min(clean_date))
 
 christmas_07 <- parse_date_time("Dec 25 2007", "mdy")
 
-df |> filter(clean_date < christmas_07)
+data |> filter(clean_date < christmas_07)
 
 ## Nested version
-df |> filter(abs(time_length(interval(clean_date, christmas_07), "day")) < 30)
+data |> filter(abs(time_length(interval(clean_date, christmas_07), "day")) < 30)
 
 ## Internal pipes version
-df |> filter(interval(clean_date, christmas_07) |>
+data |> filter(interval(clean_date, christmas_07) |>
                time_length("day") |>
                abs() < 30)
 
-df |> 
+data |> 
   mutate(quarter = quarter(clean_date)) |>
   count(quarter)
 
-df |>
+data |>
   mutate(day = wday(clean_date, label = TRUE)) |>
   count(day)
 

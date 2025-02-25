@@ -4,6 +4,8 @@
 ##' [FILE: Bringing It All Together feat. Basic Models]
 ##' [INIT: Jan 16th 2024]
 ##' [AUTH: Matt Capaldi] @ttalVlatt
+##' [EDIT: Jue Wu]
+##' [UPDT: 10 February 2025]
 ##
 ## -----------------------------------------------------------------------------
 

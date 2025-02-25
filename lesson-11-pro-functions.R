@@ -5,17 +5,19 @@
 ##' [INIT: 5 March 2024]
 ##' [AUTH: Benjamin Skinner @btskinner]
 ##' [EDIT: Matt Capaldi @ttalVlatt]
+##' [EDIT: Jue Wu]
+##' [UPDT: 12 February 2025]
 ##
 ## -----------------------------------------------------------------------------
 
 library(tidyverse)
 
-df <- haven::read_dta("data/hsls-small.dta")
+data <- haven::read_dta("data/hsls-small.dta")
 
-plot <- ggplot(df) +
+plot <- ggplot(data) +
   geom_histogram(aes(x = x1txmtscor))
 
-df_sum <- df |>
+data_sum <- data |>
   summarize(mean = mean(x1txmtscor, na.rm = T))
 
 uf_age <- 2024 - 1853
@@ -24,13 +26,13 @@ uf_age <- 2024 - 1853
 ##' [For Loops]
 ## -----------------------------------------------------------------------------
 
-matts_list <- c("Let's", "go", "Gators", "!")
+class_list <- c("Let's", "go", "Gators", "!")
 
-for(i in matts_list) { print(i) }
+for(i in class_list) { print(i) }
 
-for(word in matts_list) { print(word) }
+for(word in class_list) { print(word) }
 
-for(gator_egg in matts_list) { print(gator_egg) }
+for(gator_egg in class_list) { print(gator_egg) }
 
 gators_points_23 <- c(11, 49, 29, 22, 14, 38, 41, 20, 36, 35, 31, 15)
 
@@ -143,38 +145,38 @@ for(i in files) {
 
 for(i in files) {
   file <- read_csv(i)
-  name <- paste0("df_", i)
+  name <- paste0("data_", i)
   assign(name, file)
 }
 
 for(i in files) {
   school <- str_extract(i, "niagara|bend|east|spot")
   year <- str_extract(i, "\\d+")
-  name <- paste0("df_", school, year)
+  name <- paste0("data_", school, year)
   file <- read_csv(i)
   assign(name, file)
 }
 
-df_bind <- tibble()
+data_bind <- tibble()
 
 for(i in files) {
   file <- read_csv(i)
-  df_bind <- bind_rows(df_bind, file)
+  data_bind <- bind_rows(data_bind, file)
 }
 
 files_niagara <- list.files("data/sch-test/by-school",
                             full.names = T,
                             pattern = "niagara")
 
-df_niagara <- tibble()
+data_niagara <- tibble()
 
 for(i in files_niagara) {
   file <- read_csv(i)
-  df_niagara <- bind_rows(df_niagara, file)
+  data_niagara <- bind_rows(data_niagara, file)
 }
 
 
-print(df_niagara)
+print(data_niagara)
 
 ## -----------------------------------------------------------------------------
 ##' *END SCRIPT*
