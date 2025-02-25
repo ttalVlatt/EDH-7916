@@ -1,7 +1,7 @@
 ---
 ---
 
-Good news! By the time you have completed the quick exercises in this class, you should have some of this assignment done!
+Good news! By the time you have completed the quick exercises in this class, you should have some of this assignment already written
 
 ```{r}
 #| label: setup
@@ -11,17 +11,16 @@ Good news! By the time you have completed the quick exercises in this class, you
 library(tidyverse)
 ```
 
-## Question One (to be done in class)
+## Question One (copy over from class)
 
-**a)** Write a few sentences describing your proposal for your reproducible report
+**a)** Add a level-one heading "Data"
+**b)** Write a sentance or two about the data you're using for you final project
+**c)** Make the source of your data (e.g., IPEDS) _italic_
+**d)** Change the header title to something appropriate for your final report
+**e)** Change the header author to your name
+**f)** Change the header date so that it uses the current date whenever it is rendered
+**g)** Set the output format to create a pdf (either `pdf` or `typst`)
 
-**b)** Add an appropriate section header (e.g. "Overview")
-
-**c)** Add **bold face** around your dependent variable
-
-**d)** Make your data source name *italic*
-
-**e)** Add an appropriate title and author name to the YAML header 
 
 ## Question Two (to be done after class)
 
@@ -33,25 +32,31 @@ library(tidyverse)
 
 ```
 
-**b)** Write a few sentences describing where you got the data from
+**b)** Include a plot showing the distribution of your primary outcome/variable of interest
 
-**c)**  Add an appropriate header (e.g., "Data")
+> Bonus: Caption and number it using Quarto's automatic system
 
-**d)** Summarize one or more continuous variable including
+```{r}
+#| label: 2b
 
--   mean
--   standard deviation
--   minimum
--   maximum
 
-**e)** Summarize one or more categorical variables including
+```
 
--   count for each category
--   percentage of count for each category
+**c)**  Choose a categorical variable in your dataset, get the counts and percentages in each category (a Data Viz I throwback), and turn that into a nicely formatted `kable()`
 
-> Hint: Remember how to get percentages from assignment 2
+> Bonus: Caption and number it using Quarto's automatic system
 
-**f)** Save the file as `reproducible-report.qmd`
+```{r}
+#| label: 2c
+
+
+```
+
+**d)** Find an article that you think might be relavent to your final project, save it using Zotero, and then cite it using Quarto's Zotero integration
+
+> Bonus: Use APA 7 citation style and place the bibliography on a new page
+
+**e)** Save the file as `reproducible-report.qmd`
 
 Congratulations, you've officially started the Quarto document for your final project!
 
