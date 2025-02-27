@@ -12,4 +12,16 @@ ggplot(data) +
   labs(x = "Math Score",
        fill = "Sex") +
   theme_minimal() +
-  scale_fill_viridis_d(option = "Magma")
+  scale_fill_viridis_d(option = "magma") 
+
+ggsave("plot.png")
+
+
+
+library(knitr)
+
+data |> 
+  drop_na(x1txmtscor)|>
+  summarize(mean(x1txmtscor)) |>
+  kable()
+

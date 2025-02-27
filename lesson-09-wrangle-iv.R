@@ -127,11 +127,11 @@ df_18_clean |>
                                  TRUE ~ "You missed a condition Matt")) |>
   count(highest_cat)
 
-## install.packages("tidycensus")
-## library(tidycensus)
+# install.packages("tidycensus")
+# library(tidycensus)
 library(tidycensus)
 
-## census_api_key("<key>", install = T)
+# census_api_key("<key>", install = T)
 
 data <- get_acs(geography = "tract",
                 state = "MN",
@@ -145,21 +145,21 @@ ggplot(data) +
   geom_point(aes(x = DP03_0119PE,
                  y = DP02_0065PE))
 
-## install.packages("educationdata")
-## library(educationdata)
+# install.packages("educationdata")
+# library(educationdata)
 library(educationdata)
 
-## data_info <- get_education_data(level = "college-university",
-##                            source = "ipeds",
-##                            topic = "directory",
-##                            filters = list(year = 2021),
-##                            add_labels = TRUE)
-## 
-## data_aid <- get_education_data(level = "college-university",
-##                            source = "ipeds",
-##                            topic = "sfa-by-tuition-type",
-##                            filters = list(year = 2021),
-##                            add_labels = TRUE)
+# data_info <- get_education_data(level = "college-university",
+#                            source = "ipeds",
+#                            topic = "directory",
+#                            filters = list(year = 2021),
+#                            add_labels = TRUE)
+# 
+# data_aid <- get_education_data(level = "college-university",
+#                            source = "ipeds",
+#                            topic = "sfa-by-tuition-type",
+#                            filters = list(year = 2021),
+#                            add_labels = TRUE)
 
 load("data/ui-ed-data.Rdata")
 
@@ -171,16 +171,16 @@ data_aid <- data_aid |>
 
 nrow(data_aid)
 
-## install.packages("EdSurvey")
-## library(EdSurvey)
+# install.packages("EdSurvey")
+# library(EdSurvey)
 library(EdSurvey)
 
-## downloadHSLS(".")
+# downloadHSLS(".")
 
-## hsls <- readHSLS("HSLS/2009")
+# hsls <- readHSLS("HSLS/2009")
 
-## data_hsls <- getData(hsls,
-##                      varnames = c("x4evratndclg", "x1paredexpct"))
+# data_hsls <- getData(hsls,
+#                      varnames = c("x4evratndclg", "x1paredexpct"))
 load("data/ed-survey.Rds")
 
 data_hsls_plot <- data_hsls |>

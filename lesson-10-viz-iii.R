@@ -7,27 +7,27 @@
 ##
 ## -----------------------------------------------------------------------------
 
-## ## ---------------------------
-## ##' [libraries]
-## ## ---------------------------
-## 
-## ## Install new packages
-## install.packages(c("sf", "tidycensus", "tigris"))
+# ## ---------------------------
+# ##' [libraries]
+# ## ---------------------------
+# 
+# ## Install new packages
+# install.packages(c("sf", "tidycensus", "tigris"))
 
 library(tidyverse)
 library(sf)
 library(tidycensus)
 library(tigris)
 
-## ## ---------------------------
-## ##' [set API key]
-## ## ---------------------------
-## 
-## ## you only need to do this once: replace everything between the
-## ## quotes with the key in the email you received
-## ##
-## ## eg. census_api_key("XXXXXXXXXXXXXXXXXX", install = T)
-## census_api_key("<key>", install = T)
+# ## ---------------------------
+# ##' [set API key]
+# ## ---------------------------
+# 
+# ## you only need to do this once: replace everything between the
+# ## quotes with the key in the email you received
+# ##
+# ## eg. census_api_key("XXXXXXXXXXXXXXXXXX", install = T)
+# census_api_key("<key>", install = T)
 
 ## ---------------------------
 ##' [Get ACS Data]
