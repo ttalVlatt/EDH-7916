@@ -102,7 +102,7 @@ Among the schools that closed in 2007 or 2008 (and give a date with at least a m
 
 ```
 
-**b)** How many months has it been from that school's close date to the beginning of this current month (1 February 2025)?
+**b)** How many months has it been from that school's close date to the beginning of this current month (1 March 2025)?
 
 ```{r}
 #| label: 4b

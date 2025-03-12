@@ -14,11 +14,8 @@
 ##' [Libraries]
 ## ---------------------------
 
-## NB: The stringr library is loaded with tidyverse, but
-## lubridate is not, so we need to load it separately
-
 library(tidyverse)
-library(lubridate)
+
 
 ## ---------------------------
 ##' [Input]

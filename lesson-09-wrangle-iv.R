@@ -23,13 +23,13 @@ library(RSQLite)
 ##' [Read in Tidyverse Tricks Data]
 ## ---------------------------
 
-df_18_pub <- read_csv(file.path("data", "ipeds-finance", "f1819_f1a_rv.csv"))
-df_18_np <- read_csv(file.path("data", "ipeds-finance", "f1819_f2_rv.csv"))
-df_18_fp <- read_csv(file.path("data", "ipeds-finance", "f1819_f3_rv.csv"))
+data_18_pub <- read_csv("data/ipeds-finance/f1819_f1a_rv.csv")
+data_18_np <- read_csv("data/ipeds-finance/f1819_f2_rv.csv")
+data_18_fp <- read_csv("data/ipeds-finance/f1819_f3_rv.csv")
 
-df_18 <- bind_rows(df_18_pub, df_18_np, df_18_fp)
+data_18 <- bind_rows(data_18_pub, data_18_np, data_18_fp)
 
-df_18 |>
+data_18 |>
   count(UNITID) |>
   filter(n > 1)
 
@@ -38,68 +38,77 @@ df_18 |>
 ##' [coalesce()-ing Split Data]
 ## ---------------------------
 
-df_18 <- df_18 |>
+data_18 <- data_18 |>
   select(UNITID,
          F1C011, F1C021, F1C061,
          F2E011, F2E021, F2E051,
          F3E011, F3E02A1, F3E03B1)
 
-print(df_18[100:105,])
-print(df_18[3000:3005,])
+print(data_18[100:105,])
+print(data_18[3000:3005,])
 
 
 ## Split back up into separate files
-pub <- df_18 |> filter(!is.na(F1C011)) |>
+pub <- data_18 |> filter(!is.na(F1C011)) |>
   ## Rename the variable
   rename(inst_spend = F1C011) |>
   ## Drop the other variables
   select(UNITID, inst_spend)
-np <- df_18 |> filter(!is.na(F2E011)) |>
+np <- data_18 |> filter(!is.na(F2E011)) |>
   rename(inst_spend = F2E011) |>
   select(UNITID, inst_spend)
-fp <- df_18 |> filter(!is.na(F3E011)) |>
+fp <- data_18 |> filter(!is.na(F3E011)) |>
   rename(inst_spend = F3E011) |>
   select(UNITID, inst_spend)
+
+
 ## Re-bind the colleges back up
-rebind <- bind_rows(pub, np, fp)
+hard_way <- bind_rows(pub, np, fp)
 
 
-all.equal(rebind, coalesce)
+easy_way <- data_18 |>
+  mutate(inst_spend = coalesce(F1C011, F2E011, F3E011)) |>
+  select(UNITID, inst_spend)
 
-df_18_clean <- df_18 |>
+print(easy_way[100:105,])
+print(easy_way[3000:3005,])
+
+all.equal(hard_way, easy_way)
+
+data_18_clean <- data_18 |>
   mutate(inst_spend = coalesce(F1C011, F2E011, F3E011),
          rsch_spend = coalesce(F1C021, F2E021, F3E02A1),
          serv_spend = coalesce(F1C061, F2E051, F3E03B1)) |>
   select(UNITID, inst_spend, rsch_spend, serv_spend)
 
-print(df_18_clean[100:105,])
-print(df_18_clean[3000:3005,])
+print(data_18_clean[100:105,])
+print(data_18_clean[3000:3005,])
 
 ## ---------------------------
 ##' [Finding if_any() Issues]
 ## ---------------------------
 
-df_0_inst <- df_18_clean |> filter(inst_spend == 0)
-df_0_rsch <- df_18_clean |> filter(rsch_spend == 0)
-df_0_serv <- df_18_clean |> filter(serv_spend == 0)
-df_0 <- bind_rows(df_0_inst, df_0_rsch, df_0_serv)
+data_0_inst <- data_18_clean |> filter(inst_spend == 0)
+data_0_rsch <- data_18_clean |> filter(rsch_spend == 0)
+data_0_serv <- data_18_clean |> filter(serv_spend == 0)
+data_0 <- bind_rows(data_0_inst, data_0_rsch, data_0_serv)
 
 ## Plus we end up with duplicates
-df_0 |>
+data_0 |>
   count(UNITID) |>
   filter(n > 1)
 
 
-df_0 <- df_18_clean |>
+data_0 <- data_18_clean |>
   filter(if_any(everything(), ~ . == 0)) ## h/t https://stackoverflow.com/questions/69585261/dplyr-if-any-and-numeric-filtering
 
-print(df_0)
+print(data_0)
 
 ## ---------------------------
 ##' [Working across() Columns]
 ## ---------------------------
 
-df_0 |>
+data_0 |>
   select(-UNITID) |>
   count(across(everything(), ~ . == 0))
 
@@ -107,7 +116,7 @@ df_0 |>
 ##' [From ifelse() to case_when()]
 ## ---------------------------
 
-df_18_clean |>
+data_18_clean |>
   mutate(highest_cat = case_when(inst_spend > rsch_spend & rsch_spend > serv_spend ~ "inst_rsch_serv",
                                  inst_spend > serv_spend & serv_spend > rsch_spend ~ "inst_serv_rsch",
                                  rsch_spend > inst_spend & inst_spend > serv_spend ~ "rsch_inst_serv",
@@ -117,7 +126,7 @@ df_18_clean |>
                                  TRUE ~ "You missed a condition Matt")) |>
   count(highest_cat)
 
-df_18_clean |>
+data_18_clean |>
   mutate(highest_cat = case_when(inst_spend >= rsch_spend & rsch_spend >= serv_spend ~ "inst_rsch_serv",
                                  inst_spend >= serv_spend & serv_spend >= rsch_spend ~ "inst_serv_rsch",
                                  rsch_spend >= inst_spend & inst_spend >= serv_spend ~ "rsch_inst_serv",
